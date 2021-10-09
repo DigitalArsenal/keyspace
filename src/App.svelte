@@ -1,13 +1,13 @@
 <script lang="ts">
   import SideNav from "./SideNav.widget/SideNav.svelte";
-  import Grid from "./Grid.widget/Grid.svelte";
+  import Routes from "./routes/routes.svelte";
 </script>
 
 <div
   class="container max-w-full w-full max-h-full h-full h-screen grid grid-top-row">
   <SideNav />
   <main>
-    <Grid cssString="height:100%" grid data={[{ test: "a" }]} />
+    <Routes />
   </main>
 </div>
 
