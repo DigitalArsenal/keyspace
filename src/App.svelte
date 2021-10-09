@@ -1,64 +1,55 @@
 <script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+  import Grid from "./Grid.widget/Grid.svelte";
 </script>
 
-<main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
+<div class="container max-w-full w-full h-full grid grid-rows-2">
+  <nav class="bg-blue-900 shadow-lg">
+    <div class="container mx-auto">
+      <div class="sm:flex">
+        <a href={"#"} class="text-white text-3xl font-bold p-3">KEYSPACE</a>
 
-  <Counter />
+        <!-- Menus -->
+        <div class="ml-55 mt-4">
+          <ul class="text-white sm:self-center text-xl">
+            <li class="sm:inline-block">
+              <a href={"#"} class="p-3 hover:text-red-900">Account</a>
+            </li>
+            <li class="sm:inline-block">
+              <a href={"#"} class="p-3 hover:text-red-900">Peers</a>
+            </li>
+            <li class="sm:inline-block">
+              <a href={"#"} class="p-3 hover:text-red-900">Data</a>
+            </li>
+            <li class="sm:inline-block">
+              <a href={"#"} class="p-3 hover:text-red-900">FAQ</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <Grid cssString="height:100%" grid data={[{ test: "a" }]} />
+  </main>
+</div>
 
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
-</main>
-
-<style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
+<style global lang="postcss">
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
   main {
     text-align: center;
-    padding: 1em;
-    margin: 0 auto;
   }
 
-  img {
-    height: 16rem;
-    width: 16rem;
+  :global(html, body) {
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+    position: fixed;
   }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-
-    p {
+  @media (min-width: 640px) {
+    main {
       max-width: none;
     }
   }
