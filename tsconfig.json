@@ -6,7 +6,7 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "typeRoots": ["./lib/keyconvert", "./node_modules/bitcoinjs-lib/types"],
+    "typeRoots": ["./lib/keyconvert", "./lib/bitcoinjs/types"],
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
      * Disable checkJs if you'd like to use dynamic types in JS.

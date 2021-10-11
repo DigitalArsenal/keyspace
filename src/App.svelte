@@ -1,7 +1,4 @@
 <script>
-  import { Buffer } from "buffer";
-  // @ts-ignore
-  globalThis.Buffer = Buffer;
   import SideNav from "./SideNav.widget/SideNav.svelte";
   import Routes from "./routes/routes.svelte";
 </script>
