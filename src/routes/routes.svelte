@@ -13,7 +13,13 @@
     [index: number]: T;
   }
   export const routes: IRouteMap<IRouteParameter> = {
-    "/": {
+    "/userprofile": {
+      icon: user,
+      ...wrap({
+        component: UserProfile
+      })
+    },
+    "/database": {
       icon: database,
       ...wrap({
         component: Grid,
@@ -27,6 +33,7 @@
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
   import Grid from "../Grid.widget/Grid.svelte";
+  import UserProfile from "../UserProfile/UserProfile.svelte";
   import { user, addressBook, database } from "svelte-awesome/icons";
 
   //<Grid cssString="height:100%" grid data={[{ test: "a" }]} />

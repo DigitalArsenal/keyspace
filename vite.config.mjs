@@ -6,7 +6,14 @@ import postcss from "./postcss.config.mjs";
 export default defineConfig({
   plugins: [svelte(), viteSingleFile()],
   css: {
-    postcss,
+    postcss
+  },
+  define: {
+    process: { env: "" },
+    Buffer
+  },
+  ssr: {
+    noExternal: true
   },
   build: {
     cssCodeSplit: false,
@@ -14,8 +21,8 @@ export default defineConfig({
     rollupOptions: {
       inlineDynamicImports: true,
       output: {
-        manualChunks: () => "everything.js",
-      },
-    },
+        manualChunks: () => "everything.js"
+      }
+    }
   }
 });
