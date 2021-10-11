@@ -1,5 +1,5 @@
 <script>
-  import SideNav from "./SideNav.widget/SideNav.svelte";
+  import SideNav from "./SideNav/SideNav.svelte";
   import Routes from "./routes/routes.svelte";
 </script>
 

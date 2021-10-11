@@ -3,14 +3,15 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { viteSingleFile } from "vite-plugin-singlefile";
 import postcss from "./postcss.config.mjs";
 import commonjs from "@rollup/plugin-commonjs";
-
+import workerLoader from "rollup-plugin-web-worker-loader";
 export default defineConfig({
   plugins: [svelte(), viteSingleFile()],
   css: {
     postcss
   },
   define: {
-    process: { env: "" },
+    process: false,
+    global: "globalThis",
   },
   ssr: {
     noExternal: true
