@@ -1,3 +1,6 @@
+import { Buffer } from "buffer";
+window["Buffer"] = Buffer;
+
 import App from './App.svelte';
 
 const app = new App({

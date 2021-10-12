@@ -1,16 +1,14 @@
-<script>
-  // @ts-ignore
-  import bitcoinjs from "../../lib/bitcoinjs/bitcoin.min.mjs";
+<script lang="ts">
   import { pkBuffer, keyPair } from "../stores/userprofile.store";
   import ProfilePage from "./ProfilePage.svelte";
   import UsernamePasswordPin from "./UsernamePasswordPin.svelte";
-  let { Buffer, ECPair } = bitcoinjs;
+  import { Buffer } from "buffer";
+
+  let { ECPair } = globalThis.bitcoinjs;
 
   pkBuffer.subscribe((pkB) => {
     if (pkB) {
-      console.log("pkBuffer", Buffer.from(pkB));
       $keyPair = ECPair.fromPrivateKey(Buffer.from(pkB));
-      console.log($keyPair);
     }
   });
 </script>

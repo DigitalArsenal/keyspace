@@ -1,11 +1,10 @@
 <script lang="ts">
-  import bitcoinjs from "../../lib/bitcoinjs/bitcoin.min.mjs";
-  let { Buffer, ECPair, payments } = bitcoinjs;
-  globalThis.Buffer = Buffer;
+  import { Buffer } from "buffer";
   import { keyPair, pkBuffer } from "../stores/userprofile.store";
   import createKeccakHash from "keccak";
   import { toChecksumAddress } from "ethereum-checksum-address";
-  import { btc } from "svelte-awesome/icons";
+
+  let { payments } = globalThis.bitcoinjs;
 
   let btcAddress, btcSegWitAddress, ethAddress;
 
