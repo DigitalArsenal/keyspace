@@ -6,10 +6,7 @@
   let username,
     password,
     pin,
-    passwordRules = `At least 1 Uppercase
-At least 1 Lowercase
-At least 1 Number
-At least 1 Symbol, !@#$%^&*_=+-`,
+    passwordRules = `At least 16 characters`,
     pinLength = [1, 15];
   const showPasswordError = (e) => {
     e.target.setCustomValidity(passwordRules);
@@ -26,14 +23,12 @@ At least 1 Symbol, !@#$%^&*_=+-`,
 
     pWorker.postMessage({ username, password, pin: parseInt(pin) });
     pWorker.addEventListener("message", (e) => {
-      console.log("pbkdf2", e.data);
-      pkBuffer = e.data;
+      $pkBuffer = e.data;
     });
 
     aWorker.postMessage({ username, password, pin: parseInt(pin) });
     aWorker.addEventListener("message", (e) => {
-      console.log("argon2", e.data);
-      pkBuffer = e.data.hash;
+      $pkBuffer = e.data.hash;
     });
   };
 </script>
@@ -56,7 +51,6 @@ At least 1 Symbol, !@#$%^&*_=+-`,
       class="border-solid border border-gray-400 rounded px-2 py-3"
       type="password"
       id="userPass"
-      pattern={String.raw`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$`}
       placeholder="Password"
       minlength="16"
       title={passwordRules}
