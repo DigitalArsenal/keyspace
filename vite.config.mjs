@@ -15,6 +15,7 @@ export default defineConfig({
     noExternal: true
   },
   build: {
+    outDir:"docs",
     cssCodeSplit: false,
     assetsInlineLimit: 100000000,
     rollupOptions: {
