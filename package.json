@@ -7,7 +7,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "deploy":"npm run build && git add -A && git commit -m 'deploy' && git push"
+    "deploy": "npm run build && git add -A && git commit -m 'deploy' && git push"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.0",
@@ -40,6 +40,7 @@
     "elliptic": "^6.5.4",
     "ethereum-checksum-address": "^0.0.7",
     "keccak": "^3.0.2",
+    "keccak256": "^1.0.3",
     "libp2p-crypto": "^0.19.7",
     "pbkdf2": "^3.1.2",
     "peer-id": "^0.15.3",
