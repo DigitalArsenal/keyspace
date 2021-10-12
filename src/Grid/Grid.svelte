@@ -5,7 +5,10 @@
   import { Grid, RowNode } from "ag-grid-community";
   import type { GridOptions } from "ag-grid-community/dist/lib/entities/gridOptions";
   import { CheckboxFilter } from "./CheckboxFilter";
-  export { get };
+  import "ag-grid-community/dist/styles/ag-grid.css";
+  import "ag-grid-community/dist/styles/ag-theme-balham.css";
+  import "ag-grid-community/dist/styles/ag-theme-balham-dark.css";
+
   export let data = [{}];
   export let name = "new-table";
   export let cssString;
@@ -17,14 +20,17 @@
   export let paginationPageSize = 10;
   export let defaultColDef = {
     sortable: true,
-    filter: true
+    filter: true,
   };
   let gridFitTimeout;
   const gridFit = (timeout: number = 100) => {
     clearTimeout(gridFitTimeout);
     gridFitTimeout = setTimeout(() => {
       grid.gridOptions.columnApi.autoSizeAllColumns();
-      if (grid.gridOptions.api.columnController?.scrollWidth >= grid.gridOptions.api.columnController?.bodyWidth) {
+      if (
+        grid.gridOptions.api.columnController?.scrollWidth >=
+        grid.gridOptions.api.columnController?.bodyWidth
+      ) {
         grid.gridOptions.api.sizeColumnsToFit();
       }
     }, 100);
@@ -59,7 +65,7 @@
       paginationPageSize,
       rowSelection: "multiple",
       components: {
-        checkboxFilter: CheckboxFilter
+        checkboxFilter: CheckboxFilter,
       },
       defaultColDef,
       columnDefs: columnDefs ?? [
@@ -69,13 +75,21 @@
           width: 50,
           filter: "checkboxFilter",
           valueFormatter: (v: any) => "",
-          comparator: (valueA: any, valueB: any, nodeA: RowNode, nodeB: RowNode, isInverted: boolean) => {
-            return isInverted ? nodeA.isSelected() > nodeB.isSelected() : nodeA.isSelected() < nodeB.isSelected();
+          comparator: (
+            valueA: any,
+            valueB: any,
+            nodeA: RowNode,
+            nodeB: RowNode,
+            isInverted: boolean
+          ) => {
+            return isInverted
+              ? nodeA.isSelected() > nodeB.isSelected()
+              : nodeA.isSelected() < nodeB.isSelected();
           },
           //headerCheckboxSelection: true,
-          field: "selected"
+          field: "selected",
         },
-        ...objectKeys
+        ...objectKeys,
       ],
       rowData: data,
       sideBar: {
@@ -91,19 +105,19 @@
               suppressValues: true,
               suppressPivots: true,
               suppressPivotMode: true,
-              suppressRowGroups: false
-            }
+              suppressRowGroups: false,
+            },
           },
           {
             id: "filters",
             labelDefault: "Filters",
             labelKey: "filters",
             iconKey: "filter",
-            toolPanel: "agFiltersToolPanel"
-          }
+            toolPanel: "agFiltersToolPanel",
+          },
         ],
-        defaultToolPanel: ""
-      }
+        defaultToolPanel: "",
+      },
     };
     let eGridDiv = document.getElementById(name);
     grid = new Grid(eGridDiv, gridOptions);
@@ -113,9 +127,6 @@
 
 <svelte:head>
   <style>
-    @import "../../../node_modules/@ag-grid-community/all-modules/dist/styles/ag-grid.css";
-    @import "../../../node_modules/@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
-    @import "../../../node_modules/@ag-grid-community/all-modules/dist/styles/ag-theme-balham-dark.css";
     /* width */
     ::-webkit-scrollbar {
       width: 10px;
@@ -135,7 +146,11 @@
   </style>
 </svelte:head>
 
-<div transition:fly={{ y: 200, duration: 200 }} id={name} style={cssString} class={classString} />
+<div
+  transition:fly={{ y: 200, duration: 200 }}
+  id={name}
+  style={cssString}
+  class={classString} />
 
 <style>
   ::-webkit-scrollbar {

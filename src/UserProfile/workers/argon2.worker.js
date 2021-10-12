@@ -6,7 +6,7 @@ globalThis.addEventListener('message', async (e) => {
         pass: username,
         salt: password,
         time: parseInt(pin),
-        mem: 1024 * 1024,
+        mem: 1024 * 10,
         hashLen: 32,
         type: argon2.ArgonType.Argon2id
     }

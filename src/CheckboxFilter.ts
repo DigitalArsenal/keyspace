@@ -1,4 +1,4 @@
-import type { IFilterComp, IFilterParams, IDoesFilterPassParams } from "@ag-grid-community/all-modules";
+import type { IFilterComp, IFilterParams, IDoesFilterPassParams } from "@ag-grid-community/all-modules/dist/ag-grid-community.esm";
 
 class ShowChecked {
     selected: boolean;

@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import pbkdf2Worker from "./workers/pbkdf2.worker.js?worker&inline";
   import argon2Worker from "./workers/argon2.worker.js?worker&inline";
 
+  export let pkBuffer;
   let username,
     password,
     pin,
-    derivedKey,
     passwordRules = `At least 1 Uppercase
 At least 1 Lowercase
 At least 1 Number
@@ -27,11 +27,13 @@ At least 1 Symbol, !@#$%^&*_=+-`,
     pWorker.postMessage({ username, password, pin: parseInt(pin) });
     pWorker.addEventListener("message", (e) => {
       console.log("pbkdf2", e.data);
+      pkBuffer = e.data;
     });
 
     aWorker.postMessage({ username, password, pin: parseInt(pin) });
     aWorker.addEventListener("message", (e) => {
       console.log("argon2", e.data);
+      pkBuffer = e.data.hash;
     });
   };
 </script>
