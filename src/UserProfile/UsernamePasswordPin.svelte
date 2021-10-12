@@ -1,6 +1,5 @@
 <script lang="ts">
-  import pbkdf2Worker from "./workers/pbkdf2.worker.js?worker&inline";
-  import argon2Worker from "./workers/argon2.worker.js?worker&inline";
+  import { hashAlgorithmWorker } from "../stores/userprofile.store";
 
   export let pkBuffer;
   let username,
@@ -18,17 +17,11 @@
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const pWorker = new pbkdf2Worker();
-    const aWorker = new argon2Worker();
+    const hWorker = new $hashAlgorithmWorker();
 
-    pWorker.postMessage({ username, password, pin: parseInt(pin) });
-    pWorker.addEventListener("message", (e) => {
+    hWorker.postMessage({ username, password, pin: parseInt(pin) });
+    hWorker.addEventListener("message", (e) => {
       $pkBuffer = e.data;
-    });
-
-    aWorker.postMessage({ username, password, pin: parseInt(pin) });
-    aWorker.addEventListener("message", (e) => {
-      $pkBuffer = e.data.hash;
     });
   };
 </script>

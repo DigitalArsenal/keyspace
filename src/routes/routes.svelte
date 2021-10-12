@@ -33,6 +33,13 @@
         props: { cssString: "height:100%" },
       }),
     },
+    "/settings": {
+      icon: gear,
+      ...wrap({
+        component: Settings,
+        props: { cssString: "height:100%" },
+      }),
+    },
   };
 </script>
 
@@ -42,8 +49,15 @@
   import Grid from "../Grid/Grid.svelte";
   import UserProfile from "../UserProfile/UserProfile.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";
+  import Settings from "../Settings/Settings.svelte";
 
-  import { user, addressBook, database, idBadge } from "svelte-awesome/icons";
+  import {
+    user,
+    addressBook,
+    database,
+    idBadge,
+    gear,
+  } from "svelte-awesome/icons";
 
   //<Grid cssString="height:100%" grid data={[{ test: "a" }]} />
 </script>

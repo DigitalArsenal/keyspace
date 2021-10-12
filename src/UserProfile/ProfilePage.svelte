@@ -8,14 +8,27 @@
 
   let btcAddress, btcSegWitAddress, ethAddress;
 
-  keyPair.subscribe((kP) => {
+  let api_servers = [
+    "https://api.blockcypher.com/v1/btc/main/addrs/",
+    "https://blockchain.info/rawaddr/",
+  ];
+
+  keyPair.subscribe(async (kP) => {
     let keyObj = {
       pubkey: $keyPair.publicKey,
     };
     const { address } = payments.p2pkh(keyObj);
     btcAddress = address;
+    try {
+      console.log(
+        await (await fetch(`${api_servers[0]}${btcAddress}`))
+          .json()
+          .catch((e) => {})
+      );
+    } catch (e) {}
     const { address: swaddress } = payments.p2wpkh(keyObj);
     btcSegWitAddress = swaddress;
+
     let keccakHex = createKeccakHash("keccak256")
       .update(Buffer.from($keyPair.publicKey.slice(2), "hex"))
       .digest("hex");
