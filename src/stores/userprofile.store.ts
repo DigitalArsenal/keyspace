@@ -15,4 +15,5 @@ export const hashAlgorithmWorker = writable(hashAlgorithms[get(hashAlgorithm)]);
 
 hashAlgorithm.subscribe(hA => {
     hashAlgorithmWorker.update(hAW => hashAlgorithms[hA]);
+    pkBuffer.update(pkB => null);
 });
