@@ -19,13 +19,13 @@
     };
     const { address } = payments.p2pkh(keyObj);
     btcAddress = address;
-    try {
+    /*try {
       console.log(
         await (await fetch(`${api_servers[0]}${btcAddress}`))
           .json()
           .catch((e) => {})
       );
-    } catch (e) {}
+    } catch (e) {}*/
     const { address: swaddress } = payments.p2wpkh(keyObj);
     btcSegWitAddress = swaddress;
 
