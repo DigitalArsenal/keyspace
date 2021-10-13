@@ -15,6 +15,7 @@ export default defineConfig({
     noExternal: true
   },
   build: {
+    emptyOutDir:false,
     minify:false,
     outDir:"docs",
     cssCodeSplit: false,
