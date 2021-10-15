@@ -13,51 +13,52 @@
     [index: number]: T;
   }
   export const routes: IRouteMap<IRouteParameter> = {
+    "/": {
+      icon: home,
+      ...wrap({
+        component: MainPage
+      })
+    },
     "/userprofile": {
       icon: idBadge,
       ...wrap({
-        component: UserProfile,
-      }),
+        component: UserProfile
+      })
     },
     "/addressbook": {
       icon: addressBook,
       ...wrap({
         component: AddressBook,
-        props: { cssString: "height:100%" },
-      }),
+        props: { cssString: "height:100%" }
+      })
     },
     "/database": {
       icon: database,
       ...wrap({
         component: Grid,
-        props: { cssString: "height:100%" },
-      }),
+        props: { cssString: "height:100%" }
+      })
     },
     "/settings": {
       icon: gear,
       ...wrap({
         component: Settings,
-        props: { cssString: "height:100%" },
-      }),
-    },
+        props: { cssString: "height:100%" }
+      })
+    }
   };
 </script>
 
 <script type="ts">
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
+  import MainPage from "../MainPage/MainPage.svelte";
   import Grid from "../Grid/Grid.svelte";
   import UserProfile from "../UserProfile/UserProfile.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";
   import Settings from "../Settings/Settings.svelte";
 
-  import {
-    user,
-    addressBook,
-    database,
-    idBadge,
-    gear,
-  } from "svelte-awesome/icons";
+  import { user, addressBook, database, idBadge, gear, home } from "svelte-awesome/icons";
 
   //<Grid cssString="height:100%" grid data={[{ test: "a" }]} />
 </script>
