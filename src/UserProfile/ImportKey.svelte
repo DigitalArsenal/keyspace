@@ -1,25 +1,38 @@
 <script lang="ts">
+  //@ts-nocheck
   import { push } from "svelte-spa-router";
   import { upload } from "svelte-awesome/icons";
   import Icon from "svelte-awesome";
   import Dropzone from "svelte-file-dropzone";
 
-  export let pkBuffer,
-    fileinput,
-    files = {
+  export let pkBuffer;
+
+  let fileinput;
+  async function handleFilesSelect(e) {
+    let files = {
       accepted: [],
       rejected: []
     };
-
-  function handleFilesSelect(e) {
     const { acceptedFiles, fileRejections } = e.detail;
     files.accepted = [...files.accepted, ...acceptedFiles];
     files.rejected = [...files.rejected, ...fileRejections];
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(files.accepted[0]);
+    reader.onload = ({ currentTarget: { result } }) => {
+      readFile(result);
+    };
   }
 
-  const onFileSelected = (e) => {
-    console.log(fileinput);
+  const onFileSelected = (value) => {
+    let encoder = new TextEncoder();
+    readFile(encoder.encode(value).buffer);
   };
+
+  const readFile = (FileBuffer: ArrayBuffer) => {
+    fileinput = FileBuffer;
+    console.log(FileBuffer);
+  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
   };
@@ -27,7 +40,7 @@
 
 <form on:submit={handleOnSubmit} method="post" class="w-5/6 mt-8 mb-4 flex flex-col gap-4 align-center items-center">
   <span class="text-gray-700 w-full flex align-center justify-between"><span class="flex items-center text-gray-400">Paste Key </span> </span>
-  <textarea class="-mt-2 w-full h-40 mt-" />
+  <textarea class="-mt-2 w-full h-20 mt-" on:input={({ target: { value } }) => onFileSelected(value)} />
   <Dropzone containerClasses={["w-full"]} on:drop={handleFilesSelect} />
 
   <button class="w-3/6 {fileinput ? 'bg-blue-500' : 'bg-gray-600'} hover:bg-gray-600 text-white font-bold  py-3" type="submit">Import</button>
