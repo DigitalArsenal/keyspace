@@ -9,14 +9,11 @@
     pinLength = [1, 2],
     loading,
     message = "Generating keys, this may take a few seconds.";
-  const showPasswordError = (e) => {
-    e.target.setCustomValidity(passwordRules);
-  };
+
   const showPINError = (e) => {
     e.target.setCustomValidity(`PIN should be between ${pinLength[0]} and ${pinLength[1]} numerals`);
   };
 
-  
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     loading = true;

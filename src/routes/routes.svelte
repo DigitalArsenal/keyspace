@@ -19,7 +19,7 @@
         component: MainPage
       })
     },
-    "/userprofile": {
+    "/userprofile/:logintype?": {
       icon: idBadge,
       ...wrap({
         component: UserProfile
@@ -58,7 +58,7 @@
   import AddressBook from "../AddressBook/AddressBook.svelte";
   import Settings from "../Settings/Settings.svelte";
 
-  import { user, addressBook, database, idBadge, gear, home } from "svelte-awesome/icons";
+  import { addressBook, database, idBadge, gear, home } from "svelte-awesome/icons";
 
   //<Grid cssString="height:100%" grid data={[{ test: "a" }]} />
 </script>
