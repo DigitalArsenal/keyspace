@@ -62,7 +62,7 @@
       type="password"
       name="pin"
       pattern={String.raw`[0-9]{${pinLength[0]},${pinLength[1]}}`}
-      placeholder="PIN ({pinLength[0]}- {pinLength[1]}) Digits"
+      placeholder="PIN ({pinLength[0]} - {pinLength[1]}) Digits"
       title=""
       on:invalid={(e) => showPINError(e)}
       minlength={pinLength[0]}
