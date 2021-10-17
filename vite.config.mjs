@@ -9,15 +9,15 @@ export default defineConfig({
     postcss
   },
   define: {
-    global: "globalThis",
+    global: "globalThis"
   },
   ssr: {
     noExternal: true
   },
   build: {
-    emptyOutDir:false,
-    minify:false,
-    outDir:"docs",
+    emptyOutDir: false,
+    minify: false,
+    outDir: "docs",
     cssCodeSplit: false,
     assetsInlineLimit: 100000000,
     rollupOptions: {

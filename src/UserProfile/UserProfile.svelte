@@ -21,7 +21,7 @@
   {#if $pkBuffer}
     <ProfilePage />
   {:else}
-    <div class="bg-gray-200 rounded py-16 px-12 m-16 flex flex-col items-center justify-center">
+    <div class="bg-gray-200 rounded py-16 px-8 m-16 flex flex-col items-center justify-center">
       <!-- User profile image -->
       <img
         class="rounded-full h-32 w-32"
@@ -32,8 +32,8 @@
         <ImportKey {pkBuffer} />
       {:else}
         <UsernamePasswordPin {pkBuffer} />
-        <div class="mb-4 border border-solid rounded-lg border-gray-400 px-3 py-1">OR</div>
-        <button on:click={(e) => push("/userprofile/import")} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"> Import Key </button>
+        <div class="border border-solid rounded-lg border-gray-400 px-3 py-1">OR</div>
+        <button on:click={(e) => push("/userprofile/import")} class="w-3/6 mt-5 bg-blue-500 hover:bg-gray-600 text-white font-bold py-3"> Import Key </button>
       {/if}
     </div>
   {/if}

@@ -34,6 +34,7 @@
     "@rollup/plugin-inject": "^4.0.2",
     "ag-grid-community": "^26.0.0",
     "argon2-browser": "^1.18.0",
+    "bip32": "^2.0.6",
     "bip38": "^3.1.1",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^5.2.0",
@@ -52,6 +53,7 @@
     "svelte-awesome": "^2.4.2",
     "svelte-file-dropzone": "^0.0.15",
     "svelte-spa-router": "^3.2.0",
+    "vite-compatible-readable-stream": "^3.6.0",
     "webcrypto-liner": "^1.2.4",
     "wif": "^2.0.6"
   }
