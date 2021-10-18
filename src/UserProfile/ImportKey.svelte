@@ -4,9 +4,13 @@
   import { upload } from "svelte-awesome/icons";
   import Icon from "svelte-awesome";
   import Dropzone from "svelte-file-dropzone";
-  const { mnemonicToEntropy } = globalThis.bitcoinjs.bip39;
+  const HDNode = globalThis.bitcoinjs.bip32;
+  const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
+  const { fromSeed } = globalThis.bitcoinjs.bip32;
 
-  export let pkBuffer;
+  import { pkBuffer, keyPair } from "../stores/userprofile.store";
+
+  let _pkBuffer;
 
   let fileinput;
   async function handleFilesSelect(e) {
@@ -29,18 +33,25 @@
     readFile(encoder.encode(value).buffer);
   };
 
-  const readFile = (FileBuffer: ArrayBuffer) => {
+  const readFile = async (FileBuffer: ArrayBuffer) => {
     fileinput = FileBuffer;
     let textInput = new TextDecoder().decode(FileBuffer);
     if (textInput.split(/\s/g).length >= 12) {
-      console.log(textInput.replace(/\s/g, " "));
-      let bip39Entropy = mnemonicToEntropy(textInput.replace(/\s/g, " "));
-      console.log(bip39Entropy);
+      textInput = textInput.replace(/\s/g, " ");
+      let masterNode = HDNode.fromSeed(mnemonicToSeedSync(textInput));
+      let account0 = masterNode.deriveHardened(44).deriveHardened(0).deriveHardened(0).derive(0).derive(0);
+      /**
+       * BIP 44: m/44'/0'/0' (1xxx...) //19Skn7F9PV4DyumBA5CG8uwAVF98S6ebi1
+       * BIP 49: m/49'/0'/0' (3xxx...)
+       * BIP 84: m/84'/0'/0' (bc1xxx...)
+       */
+      _pkBuffer = account0.privateKey;
     }
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    $pkBuffer = _pkBuffer;
   };
 </script>
 
