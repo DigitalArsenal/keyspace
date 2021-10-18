@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pkBuffer, keyPair } from "../stores/userprofile.store";
+  import { masterNode } from "../stores/userprofile.store";
   import ProfilePage from "./ProfilePage.svelte";
   import UsernamePasswordPin from "./UsernamePasswordPin.svelte";
   import ImportKey from "./ImportKey.svelte";
@@ -7,18 +7,10 @@
   import { push, pop, replace } from "svelte-spa-router";
 
   export let params: any = {};
-
-  let { ECPair } = globalThis.bitcoinjs;
-
-  pkBuffer.subscribe((pkB) => {
-    if (pkB) {
-      $keyPair = ECPair.fromPrivateKey(Buffer.from(pkB));
-    }
-  });
 </script>
 
 <div class="bg-black-100">
-  {#if $pkBuffer}
+  {#if $masterNode}
     <ProfilePage />
   {:else}
     <div class="bg-gray-200 rounded py-16 px-8 m-16 flex flex-col items-center justify-center">
@@ -29,9 +21,9 @@
         alt="user avatar"
       />
       {#if params?.logintype === "import"}
-        <ImportKey {pkBuffer} />
+        <ImportKey />
       {:else}
-        <UsernamePasswordPin {pkBuffer} />
+        <UsernamePasswordPin />
         <div class="border border-solid rounded-lg border-gray-400 px-3 py-1">OR</div>
         <button on:click={(e) => push("/userprofile/import")} class="w-3/6 mt-5 bg-blue-500 hover:bg-gray-600 text-white font-bold py-3"> Import Key </button>
       {/if}

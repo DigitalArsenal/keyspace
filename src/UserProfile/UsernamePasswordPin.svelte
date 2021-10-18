@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { hashAlgorithmWorker } from "../stores/userprofile.store";
+  import { hashAlgorithmWorker, masterNode } from "../stores/userprofile.store";
+  const HDNode = globalThis.bitcoinjs.bip32;
   import Loading from "../widgets/Loading.svelte";
-  export let pkBuffer;
+
   let username,
     password,
     pin,
@@ -21,7 +22,7 @@
 
     hWorker.postMessage({ username, password, pin: parseInt(pin) });
     hWorker.addEventListener("message", (e) => {
-      $pkBuffer = e.data;
+      $masterNode = HDNode.fromSeed(e.data);
     });
   };
 </script>
