@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Buffer } from "buffer";
-  import { masterNode } from "../stores/userprofile.store";
-  import { HD } from "ethers";
+  import { masterNode, privateKey } from "../stores/userprofile.store";
+  import * as ethers from "ethers";
 
+  const { HDNode: ethHDNode } = ethers.utils;
   let { payments } = globalThis.bitcoinjs;
 
   let btcAddress, btcSegWitAddress, ethAddress;
@@ -42,9 +43,13 @@
       pubkey: bip84Account.publicKey,
       network: globalThis.bitcoinjs.bitcoin
     });
+    
     btcSegWitAddress = swaddress;
-
-    ethAddress = "TODO"; //toChecksumAddress(`${keccakHex.substring(keccakHex.length - 40, keccakHex.length).toUpperCase()}`);
+    console.log($privateKey)
+    let ethNode = ethHDNode.fromSeed($privateKey);
+    let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
+    console.log(firstWallet);
+    ethAddress = firstWallet.address;
   });
 </script>
 

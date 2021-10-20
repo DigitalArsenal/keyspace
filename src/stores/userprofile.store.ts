@@ -8,7 +8,7 @@ export const hashAlgorithms = {
 };
 
 export const masterNode = writable(null);
-export const keyPair = writable(null);
+export const privateKey = writable(null);
 export const hashAlgorithm = writable("argon2");
 
 export const hashAlgorithmWorker = writable(hashAlgorithms[get(hashAlgorithm)]);

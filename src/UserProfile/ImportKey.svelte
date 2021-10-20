@@ -7,7 +7,7 @@
   const HDNode = globalThis.bitcoinjs.bip32;
   const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
 
-  import { masterNode } from "../stores/userprofile.store";
+  import { masterNode, privateKey } from "../stores/userprofile.store";
 
   let _pkBuffer;
   let _masterNode;
@@ -38,6 +38,7 @@
     if (textInput.split(/\s/g).length >= 12) {
       textInput = textInput.replace(/\s/g, " ");
       _pkBuffer = mnemonicToSeedSync(textInput);
+      $privateKey = _pkBuffer;
       _masterNode = HDNode.fromSeed(_pkBuffer);
       /**
        * BIP 44: m/44'/0'/0' (1xxx...) //19Skn7F9PV4DyumBA5CG8uwAVF98S6ebi1

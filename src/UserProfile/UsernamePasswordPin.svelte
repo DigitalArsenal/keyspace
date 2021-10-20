@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { hashAlgorithmWorker, masterNode } from "../stores/userprofile.store";
-  const HDNode = globalThis.bitcoinjs.bip32;
+  import { hashAlgorithmWorker, masterNode, privateKey } from "../stores/userprofile.store";
+  const bitcoinJSHDNode = globalThis.bitcoinjs.bip32;
   import Loading from "../widgets/Loading.svelte";
 
   let username,
@@ -22,7 +22,8 @@
 
     hWorker.postMessage({ username, password, pin: parseInt(pin) });
     hWorker.addEventListener("message", (e) => {
-      $masterNode = HDNode.fromSeed(Buffer.from(e.data.buffer));
+      $privateKey = Buffer.from(e.data.buffer);
+      $masterNode = bitcoinJSHDNode.fromSeed(Buffer.from(e.data.buffer));
     });
   };
 </script>
