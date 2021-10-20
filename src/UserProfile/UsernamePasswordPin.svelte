@@ -22,7 +22,7 @@
 
     hWorker.postMessage({ username, password, pin: parseInt(pin) });
     hWorker.addEventListener("message", (e) => {
-      $masterNode = HDNode.fromSeed(e.data);
+      $masterNode = HDNode.fromSeed(Buffer.from(e.data.buffer));
     });
   };
 </script>
