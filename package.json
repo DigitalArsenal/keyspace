@@ -42,6 +42,7 @@
     "elliptic": "^6.5.4",
     "ethereum-checksum-address": "^0.0.7",
     "ethers": "^5.5.1",
+    "ethers-typescript-typings": "^0.0.4",
     "keccak": "^3.0.2",
     "keccak256": "^1.0.3",
     "libp2p-crypto": "^0.19.7",
