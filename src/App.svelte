@@ -3,7 +3,7 @@
   import Routes from "./routes/routes.svelte";
 </script>
 
-<div class="container w-full max-h-full h-full h-screen grid grid-top-row">
+<div class="w-full h-full h-screen grid grid-top-row">
   <SideNav />
   <main>
     <Routes />

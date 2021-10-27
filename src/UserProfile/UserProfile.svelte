@@ -14,7 +14,7 @@
     <ProfilePage />
   {:else}
     <div
-      class="bg-gray-200 max-w-4xl  rounded py-16 px-8 m-16 flex flex-col items-center justify-center">
+      class="bg-gray-200 rounded py-16 px-8 m-16 flex flex-col items-center justify-center">
       <!-- User profile image -->
       <img
         class="rounded-full h-32 w-32"
