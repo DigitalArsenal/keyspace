@@ -8,6 +8,7 @@ export const hashAlgorithms = {
 };
 
 export const masterNode = writable(null);
+export const xpubMasterNode = writable(null);
 export const privateKey = writable(null);
 export const hashAlgorithm = writable("argon2");
 

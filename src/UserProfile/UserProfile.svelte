@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { masterNode } from "../stores/userprofile.store";
+  import { masterNode, xpubMasterNode } from "../stores/userprofile.store";
   import ProfilePage from "./ProfilePage.svelte";
   import UsernamePasswordPin from "./UsernamePasswordPin.svelte";
   import ImportKey from "./ImportKey.svelte";
@@ -10,7 +10,7 @@
 </script>
 
 <div class="bg-black-100 min-h-screen	flex items-center justify-center">
-  {#if $masterNode}
+  {#if $masterNode || $xpubMasterNode}
     <ProfilePage />
   {:else}
     <div
