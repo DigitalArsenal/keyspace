@@ -1,9 +1,8 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2021",
     "useDefineForClassFields": true,
-    "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",
     "typeRoots": ["./lib/keyconvert", "./lib/bitcoinjs/types"],
