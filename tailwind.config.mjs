@@ -18,4 +18,5 @@ export default {
     extend: {},
   },
   plugins: [],
+  purge: false
 }

@@ -6,6 +6,7 @@
     userData?: any;
     _svelteparouter?: Boolean;
     icon?: any;
+    name?: string;
   }
 
   interface IRouteMap<T> {
@@ -14,38 +15,49 @@
   }
   export const routes: IRouteMap<IRouteParameter> = {
     "/": {
+      name: "HOME",
       icon: home,
       ...wrap({
-        component: MainPage
-      })
+        component: MainPage,
+      }),
     },
-    "/userprofile/:logintype?": {
+    /*"/userprofile/:logintype?": {
       icon: idBadge,
       ...wrap({
         component: UserProfile
       })
+    },*/
+    "/login": {
+      name: "LOGIN",
+      icon: idBadge,
+      ...wrap({
+        component: Login,
+      }),
     },
     "/addressbook": {
+      name: "DIRECTORY",
       icon: addressBook,
       ...wrap({
         component: AddressBook,
-        props: { cssString: "height:100%" }
-      })
+        props: { cssString: "height:100%" },
+      }),
     },
     "/database": {
+      name: "DATABASE",
       icon: database,
       ...wrap({
         component: Grid,
-        props: { cssString: "height:100%" }
-      })
+        props: { cssString: "height:100%" },
+      }),
     },
     "/settings": {
+      name: "SETTINGS",
       icon: gear,
       ...wrap({
         component: Settings,
-        props: { cssString: "height:100%" }
-      })
-    }
+        props: { cssString: "height:100%" },
+      }),
+    },
   };
 </script>
 
@@ -54,11 +66,18 @@
   import { wrap } from "svelte-spa-router/wrap";
   import MainPage from "../MainPage/MainPage.svelte";
   import Grid from "../Grid/Grid.svelte";
-  import UserProfile from "../UserProfile/UserProfile.svelte";
+  //import UserProfile from "../UserProfile/UserProfile.svelte";
+  import Login from "../Login/Login.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";
   import Settings from "../Settings/Settings.svelte";
 
-  import { addressBook, database, idBadge, gear, home } from "svelte-awesome/icons";
+  import {
+    addressBook,
+    database,
+    idBadge,
+    gear,
+    home,
+  } from "svelte-awesome/icons";
 
   //<Grid cssString="height:100%" grid data={[{ test: "a" }]} />
 </script>

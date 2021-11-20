@@ -2,9 +2,8 @@
   import SideNav from "./SideNav/SideNav.svelte";
   import Routes from "./routes/routes.svelte";
 </script>
-
+<SideNav />
 <div class="w-full h-full h-screen grid grid-top-row">
-  <SideNav />
   <main>
     <Routes />
   </main>
@@ -16,7 +15,7 @@
   @tailwind utilities;
 
   .grid-top-row {
-    grid-template-columns: min-content auto;
+    grid-template-columns: auto;
   }
   main {
     text-align: center;
