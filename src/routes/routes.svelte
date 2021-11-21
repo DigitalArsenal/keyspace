@@ -1,4 +1,12 @@
 <script context="module" type="ts">
+  import {
+    masterNode,
+    xpubMasterNode,
+    privateKey,
+  } from "../stores/userprofile.store";
+  import { push } from "svelte-spa-router";
+  import { get } from "svelte/store";
+
   interface IRouteParameter {
     component: any;
     conditions?: any;
@@ -31,6 +39,16 @@
       icon: idBadge,
       ...wrap({
         component: Login,
+        conditions: [
+          () => {
+            let loggedIn = get(masterNode);
+            if (loggedIn) {
+              push("/userprofile");
+              return false;
+            }
+            return true;
+          },
+        ],
       }),
     },
     "/importkey": {
