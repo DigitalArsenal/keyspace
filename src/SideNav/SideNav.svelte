@@ -5,26 +5,32 @@
   let { routes } = Routes;
 
   let open = false;
+  const doNav = (e, route) => {
+    open = false;
+    push(route[0]);
+  };
 </script>
 
 <div
-  class="z-10 fixed ml-2 mt-4 space-y-2 cursor-pointer"
+  class="z-20 fixed ml-2 mt-4 space-y-2 cursor-pointer"
   on:click={() => {
     open = !open;
   }}>
   <span class:topen={open} class="transition-all block w-8 h-0.5 bg-gray-100" />
-  <span class:invisible={open} class="transition-all block w-8 h-0.5 bg-gray-100" />
+  <span
+    class:invisible={open}
+    class="transition-all block w-8 h-0.5 bg-gray-100" />
   <span class:bopen={open} class="transition-all block w-8 h-0.5 bg-gray-100" />
 </div>
 <div
   style="box-shadow: 2px 0px 2px 0px rgba(0,0,0,0.65); left:{open
     ? '0%'
     : '-100%'}"
-  class="h-screen fixed transition-all select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-blue-900 w-56">
+  class="z-10 h-screen fixed transition-all select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-blue-900 w-56">
   {#each Object.entries(routes) as route, r}
     {#if route[1].icon}
       <div
-        on:click={() => push(route[0])}
+        on:click={(e) => doNav(e, route)}
         class="h-12 w-12 grid inline-grid grid-cols-2 gap-12 justify-center items-center text-white cursor-pointer">
         <div class="flex justify-center w-12">
           <Icon class="w-max" scale={2} data={route[1].icon} />

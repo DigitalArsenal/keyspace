@@ -30,6 +30,7 @@
     hWorker.addEventListener("message", (e) => {
       $privateKey = Buffer.from(e.data.buffer);
       $masterNode = bitcoinJSHDNode.fromSeed(Buffer.from(e.data.buffer));
+      
     });
   };
 </script>
@@ -38,11 +39,11 @@
   <Loading {message} />
 {/if}
 <form on:submit={handleOnSubmit} method="post">
-  <div class="w-full h-screen flex items-center justify-center bg-gray-800">
+  <div class="w-full h-screen flex items-center justify-center">
     <div
       class="bg-gray-200 w-96 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
-      <label for="" class="font-light text-4xl mb-4"
-        >key<span class="font-bold">space</span></label>
+      <label for="" class="font-light text-gray-800 text-4xl mb-4">
+        key<span class="font-bold">space</span></label>
       <input
         type="email"
         id="userEmail"
