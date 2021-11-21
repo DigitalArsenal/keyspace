@@ -17,9 +17,7 @@
     open = !open;
   }}>
   <span class:topen={open} class="transition-all block w-8 h-0.5 bg-gray-100" />
-  <span
-    class:invisible={open}
-    class="transition-all block w-8 h-0.5 bg-gray-100" />
+  <span class:invisible={open} class="block w-8 h-0.5 bg-gray-100" />
   <span class:bopen={open} class="transition-all block w-8 h-0.5 bg-gray-100" />
 </div>
 <div

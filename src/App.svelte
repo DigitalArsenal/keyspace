@@ -3,7 +3,7 @@
   import Routes from "./routes/routes.svelte";
 </script>
 <SideNav />
-<div class="bg-gray-800 text-white w-full h-full h-screen grid grid-top-row">
+<div class="bg-gray-800 text-white w-full h-full h-screen">
   <main>
     <Routes />
   </main>
@@ -14,9 +14,6 @@
   @tailwind components;
   @tailwind utilities;
 
-  .grid-top-row {
-    grid-template-columns: auto;
-  }
   main {
     text-align: center;
   }
