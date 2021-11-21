@@ -31,7 +31,7 @@
     hWorker.addEventListener("message", (e) => {
       $privateKey = Buffer.from(e.data.buffer);
       $masterNode = bitcoinJSHDNode.fromSeed(Buffer.from(e.data.buffer));
-      push("/userprofile/")
+      push("/")
     });
   };
 </script>

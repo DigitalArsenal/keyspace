@@ -2,11 +2,10 @@
   import SideNav from "./SideNav/SideNav.svelte";
   import Routes from "./routes/routes.svelte";
 </script>
+
 <SideNav />
 <div class="bg-gray-800 text-white w-full h-full h-screen">
-  <main>
-    <Routes />
-  </main>
+  <Routes />
 </div>
 
 <style global lang="postcss">
