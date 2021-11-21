@@ -21,17 +21,21 @@
         component: MainPage,
       }),
     },
-    /*"/userprofile/:logintype?": {
-      icon: idBadge,
+    "/userprofile": {
       ...wrap({
-        component: UserProfile
-      })
-    },*/
+        component: UserProfile,
+      }),
+    },
     "/login": {
       name: "LOGIN",
       icon: idBadge,
       ...wrap({
         component: Login,
+      }),
+    },
+    "/importkey": {
+      ...wrap({
+        component: ImportKey,
       }),
     },
     "/addressbook": {
@@ -66,8 +70,9 @@
   import { wrap } from "svelte-spa-router/wrap";
   import MainPage from "../MainPage/MainPage.svelte";
   import Grid from "../Grid/Grid.svelte";
-  //import UserProfile from "../UserProfile/UserProfile.svelte";
+  import UserProfile from "../UserProfile/ProfilePage.svelte";
   import Login from "../Login/Login.svelte";
+  import ImportKey from "../Login/ImportKey.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";
   import Settings from "../Settings/Settings.svelte";
 

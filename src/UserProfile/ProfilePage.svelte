@@ -7,6 +7,7 @@
   } from "../stores/userprofile.store";
   import * as ethers from "ethers";
   import QRCode from "qrcode";
+  import { push } from "svelte-spa-router";
 
   const generateQR = async (text) => {
     try {
@@ -68,42 +69,46 @@
   });
 </script>
 
-<div class="flex flex-col">
-  <div class="text-2xl mb-10">ADDRESS</div>
-  <h1 class="mb-5">
-    XPUB: {xpub}
-  </h1>
-  <h1 class="mb-5">
-    BTC:
-    <a
-      class="text-blue-600"
-      href="https://www.blockchain.com/btc/address/{btcAddress}">
-      {btcAddress}
-    </a>
-  </h1>
-  <h1 class="mb-5">
-    BTC (SegWit):
-    <a
-      class="text-blue-600"
-      href="https://www.blockchain.com/btc/address/{btcSegWitAddress}">
-      {btcSegWitAddress}
-    </a>
-  </h1>
-  <h1 class="mb-5">
-    ETH:
-    <a class="text-blue-600" href="https://etherscan.io/address/{ethAddress}">
-      {ethAddress}
-    </a>
-  </h1>
-  <button
-    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
+<div class="text-gray-800 w-full h-screen flex items-center justify-center">
+  <div
+    class="bg-gray-200 w-auto m-10 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
+    <div class="text-2xl mb-10">Account Addresses</div>
+    <!--<h1 class="mb-5">
+      XPUB: {xpub}
+    </h1>-->
+    <h1 class="mb-5">
+      BTC:
+      <a
+        class="text-blue-600"
+        href="https://www.blockchain.com/btc/address/{btcAddress}">
+        {btcAddress}
+      </a>
+    </h1>
+    <h1 class="mb-5">
+      BTC (SegWit):
+      <a
+        class="text-blue-600"
+        href="https://www.blockchain.com/btc/address/{btcSegWitAddress}">
+        {btcSegWitAddress}
+      </a>
+    </h1>
+    <h1 class="mb-5">
+      ETH:
+      <a class="text-blue-600" href="https://etherscan.io/address/{ethAddress}">
+        {ethAddress}
+      </a>
+    </h1>
+    <button
+      class="w-24 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
   mt-10"
-    on:click={(e) => {
-      $masterNode = null;
-      $xpubMasterNode = null;
-    }}>
-    Clear
-  </button>
+      on:click={(e) => {
+        $masterNode = null;
+        $xpubMasterNode = null;
+        push("/login");
+      }}>
+      Logout
+    </button>
+  </div>
 </div>
 
 <style>
