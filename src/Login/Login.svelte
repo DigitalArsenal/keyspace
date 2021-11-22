@@ -2,6 +2,7 @@
   import {
     hashAlgorithmWorker,
     masterNode,
+    entropyLength,
     Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
@@ -29,7 +30,12 @@
     loading = true;
     const hWorker = new $hashAlgorithmWorker();
 
-    hWorker.postMessage({ username, password, pin: parseInt(pin) });
+    hWorker.postMessage({
+      username,
+      password,
+      pin: parseInt(pin),
+      entropyLength: $entropyLength,
+    });
     hWorker.addEventListener("message", async (e) => {
       let entropy = Buffer.from(e.data.buffer);
       bip39Phrase.set(await entropyToMnemonic(entropy));

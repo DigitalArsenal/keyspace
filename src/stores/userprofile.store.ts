@@ -9,9 +9,9 @@ export const hashAlgorithms = {
 
 export const masterNode = writable(null);
 export const xpubMasterNode = writable(null);
-export const Seed= writable(null);
+export const Seed = writable(null);
 export const bip39Phrase = writable(null);
-
+export const entropyLength = writable(16);
 export const hashAlgorithm = writable("argon2");
 
 export const hashAlgorithmWorker = writable(hashAlgorithms[get(hashAlgorithm)]);

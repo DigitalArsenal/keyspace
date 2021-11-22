@@ -1,12 +1,12 @@
 import pbkdf2 from "pbkdf2/browser";
 
 globalThis.addEventListener('message', (e) => {
-    let { username, password, pin } = e.data;
+    let { username, password, pin, entropyLength } = e.data;
     let derivedKey = pbkdf2.pbkdf2Sync(
         username,
         password,
         parseInt(pin),
-        32,
+        entropyLength,
         "sha256"
     );
     globalThis.postMessage(derivedKey);
