@@ -32,6 +32,16 @@
     "/userprofile": {
       ...wrap({
         component: UserProfile,
+        conditions: [
+          () => {
+            let loggedIn = get(masterNode);
+            if (!loggedIn) {
+              push("/login");
+              return false;
+            }
+            return true;
+          },
+        ],
       }),
     },
     "/login": {

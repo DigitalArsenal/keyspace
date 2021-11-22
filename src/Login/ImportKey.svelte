@@ -6,12 +6,13 @@
   import Dropzone from "svelte-file-dropzone";
   const HDNode = globalThis.bitcoinjs.bip32;
   const XPUBHDnode = globalThis.bitcoinjs.bip32;
-  const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
-
+  const { mnemonicToSeedSync, entropyToMnemonic } = globalThis.bitcoinjs.bip39;
+  //https://github.com/trezor/python-mnemonic/blob/master/vectors.json
   import {
     masterNode,
     xpubMasterNode,
     privateKey,
+    bip39Phrase,
   } from "../stores/userprofile.store";
 
   let _pkBuffer, _masterNode, _xpubMasterNode, fileinput;
@@ -35,13 +36,16 @@
     readFile(encoder.encode(value).buffer);
   };
 
+  //TODO hex, binary, mnemonic password
   const readFile = async (FileBuffer: ArrayBuffer) => {
     fileinput = FileBuffer;
     let textInput = new TextDecoder().decode(FileBuffer);
 
     if (textInput.split(/\s/g).length >= 12) {
       textInput = textInput.replace(/\s/g, " ");
+      bip39Phrase.set(textInput);
       _pkBuffer = mnemonicToSeedSync(textInput);
+
       _masterNode = HDNode.fromSeed(_pkBuffer);
     } else if (textInput.match(/^xpub/)) {
       _xpubMasterNode = HDNode.fromBase58(textInput);

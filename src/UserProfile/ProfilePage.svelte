@@ -4,11 +4,12 @@
     masterNode,
     xpubMasterNode,
     privateKey,
+    bip39Phrase,
   } from "../stores/userprofile.store";
   import * as ethers from "ethers";
   import QRCode from "qrcode";
   import { push } from "svelte-spa-router";
-
+  const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
     try {
       return await QRCode.toDataURL(text);
@@ -20,7 +21,12 @@
   const { HDNode: ethHDNode } = ethers.utils;
   let { payments } = globalThis.bitcoinjs;
 
-  let btcAddress, btcSegWitAddress, ethAddress, xpriv, xpub;
+  let btcAddress,
+    btcSegWitAddress,
+    ethAddress,
+    xpriv,
+    xpub,
+    doExport = false;
 
   let api_servers = [
     "https://api.blockcypher.com/v1/btc/main/addrs/",
@@ -67,6 +73,10 @@
     });
     btcAddress = address;
   });
+
+  const exportKey = (e) => {
+    doExport = !doExport;
+  };
 </script>
 
 <div class="text-gray-800 w-full h-screen flex items-center justify-center">
@@ -99,17 +109,13 @@
       </a>
     </h1>
     <button
-      class="w-24 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
-  mt-10"
-      on:click={(e) => {
-        $masterNode = null;
-        $xpubMasterNode = null;
-        push("/login");
-      }}>
-      Logout
+      on:click={exportKey}
+      class="w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">
+      {doExport ? "Hide" : "Export"}
     </button>
+    <textarea
+      class:hidden={!doExport}
+      class="w-9/12 h-40 font-bold py-2 px-4 rounded mt-10"
+      bind:value={$bip39Phrase} />
   </div>
 </div>
-
-<style>
-</style>

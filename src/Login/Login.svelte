@@ -3,12 +3,13 @@
     hashAlgorithmWorker,
     masterNode,
     privateKey,
+    bip39Phrase,
   } from "../stores/userprofile.store";
+  import { get } from "svelte/store";
   const bitcoinJSHDNode = globalThis.bitcoinjs.bip32;
   import Loading from "../widgets/Loading.svelte";
   import { push, pop, replace } from "svelte-spa-router";
-  import { onMount } from "svelte";
-
+  const { entropyToMnemonic, mnemonicToSeed } = globalThis.bitcoinjs.bip39;
   let username,
     password,
     pin,
@@ -29,9 +30,10 @@
     const hWorker = new $hashAlgorithmWorker();
 
     hWorker.postMessage({ username, password, pin: parseInt(pin) });
-    hWorker.addEventListener("message", (e) => {
-      $privateKey = Buffer.from(e.data.buffer);
-      $masterNode = bitcoinJSHDNode.fromSeed(Buffer.from(e.data.buffer));
+    hWorker.addEventListener("message", async (e) => {
+      let entropy = Buffer.from(e.data.buffer);
+      bip39Phrase.set(await entropyToMnemonic(entropy));
+      $masterNode = bitcoinJSHDNode.fromSeed(await mnemonicToSeed(get(bip39Phrase)));
       push("/userprofile");
     });
   };
