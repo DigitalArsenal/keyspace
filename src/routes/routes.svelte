@@ -2,7 +2,7 @@
   import {
     masterNode,
     xpubMasterNode,
-    privateKey,
+    Seed,
   } from "../stores/userprofile.store";
   import { push } from "svelte-spa-router";
   import { get } from "svelte/store";

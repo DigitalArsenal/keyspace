@@ -2,7 +2,7 @@
   import {
     hashAlgorithmWorker,
     masterNode,
-    privateKey,
+    Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
   import { get } from "svelte/store";
@@ -33,7 +33,8 @@
     hWorker.addEventListener("message", async (e) => {
       let entropy = Buffer.from(e.data.buffer);
       bip39Phrase.set(await entropyToMnemonic(entropy));
-      $masterNode = bitcoinJSHDNode.fromSeed(await mnemonicToSeed(get(bip39Phrase)));
+      $Seed = await mnemonicToSeed(get(bip39Phrase));
+      $masterNode = bitcoinJSHDNode.fromSeed($Seed);
       push("/userprofile");
     });
   };

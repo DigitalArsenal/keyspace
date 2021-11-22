@@ -4,6 +4,7 @@
     "target": "es2021",
     "useDefineForClassFields": true,
     "resolveJsonModule": true,
+    "moduleResolution": "Node",
     "baseUrl": ".",
     "typeRoots": ["./lib/keyconvert", "./lib/bitcoinjs/types"],
     /**

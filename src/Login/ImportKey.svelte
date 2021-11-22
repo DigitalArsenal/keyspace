@@ -11,7 +11,7 @@
   import {
     masterNode,
     xpubMasterNode,
-    privateKey,
+    Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
 
@@ -56,7 +56,7 @@
     e.preventDefault();
     $masterNode = _masterNode;
     $xpubMasterNode = _xpubMasterNode;
-    $privateKey = _pkBuffer;
+    $Seed= _pkBuffer;
     push("/userprofile");
   };
 </script>

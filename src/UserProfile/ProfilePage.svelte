@@ -3,7 +3,7 @@
   import {
     masterNode,
     xpubMasterNode,
-    privateKey,
+    Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
   import * as ethers from "ethers";
@@ -57,8 +57,8 @@
 
     xpub = mN.neutered().toBase58();
 
-    if (!$privateKey) return;
-    let ethNode = ethHDNode.fromSeed($privateKey);
+    if (!$Seed) return;
+    let ethNode = ethHDNode.fromSeed($Seed);
     let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
     ethAddress = firstWallet.address;
   });

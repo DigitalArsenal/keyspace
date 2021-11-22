@@ -5,7 +5,6 @@
   import {
     masterNode,
     xpubMasterNode,
-    privateKey,
   } from "../stores/userprofile.store";
   let { routes } = Routes;
 
