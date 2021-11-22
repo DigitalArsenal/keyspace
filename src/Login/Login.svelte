@@ -14,7 +14,7 @@
     password,
     pin,
     passwordRules = `At least 16 characters`,
-    pinLength = [1, 8],
+    pinLength = [1, 2],
     loading,
     message = "Generating keys, this may take a few seconds.";
 
