@@ -25,7 +25,7 @@
     return xPub;
   };
 
-  let _pkBuffer, _masterNode, _xpubMasterNode, fileinput;
+  let _pkBuffer, _masterNode, _xpubMasterNode, _xprivMasterNode, fileinput;
   async function handleFilesSelect(e) {
     let files = {
       accepted: [],
@@ -59,6 +59,8 @@
       _masterNode = HDNode.fromSeed(_pkBuffer);
     } else if (textInput.match(/^xpub/)) {
       _xpubMasterNode = HDNode.fromBase58(textInput);
+    } else if (textInput.match(/^xprv/)) {
+      _xprivMasterNode = HDNode.fromBase58(textInput);
     }
   };
 
@@ -66,6 +68,7 @@
     e.preventDefault();
     $masterNode = _masterNode;
     $xpubMasterNode = _xpubMasterNode;
+    $xprivMasterNode = _xprivMasterNode;
     $Seed = _pkBuffer;
     push("/userprofile");
   };

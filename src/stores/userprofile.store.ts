@@ -15,6 +15,7 @@ export const hashAlgorithms: WorkerGeneratorHash = {
 
 export const masterNode = writable(null);
 export const xpubMasterNode = writable(null);
+export const xprivMasterNode = writable(null);
 export const Seed = writable(null);
 export const bip39Phrase = writable(null);
 export const entropyLength = writable(16);

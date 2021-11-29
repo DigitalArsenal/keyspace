@@ -3,6 +3,7 @@
   import {
     masterNode,
     xpubMasterNode,
+    xprivMasterNode,
     Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
@@ -64,19 +65,19 @@
       ethAddress = firstWallet.address;
     }
   });
-  /*
-  xpubMasterNode.subscribe(async (xMN) => {
-    if (!xMN) return;
-    xpub = xMN.neutered().toBase58();
-    let bip44Account = xMN.derive(0).derive(0);
-    bip44Account = xMN.derivePath("m/44'/0'/0'/0/0");
+
+  xprivMasterNode.subscribe(async (xprivMN) => {
+    if (!xprivMN) return;
+    xpub = xprivMN.neutered().toBase58();
+    let bip44Account = xprivMN.derive(0).derive(0);
+    bip44Account = xprivMN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
       pubkey: bip44Account.publicKey,
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcAddress = address;
   });
-  */
+
   const exportKey = (e) => {
     doExport = !doExport;
   };
@@ -124,8 +125,8 @@
         XPRIV:
         {xpriv}
       </h1>
-      <textarea
-        class="w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
+      <textarea readonly
+        class="resize-none w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
         bind:value={$bip39Phrase} />
     </div>
   </div>
