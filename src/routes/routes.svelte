@@ -21,6 +21,11 @@
     [index: string]: T;
     [index: number]: T;
   }
+
+  const loggedIn = (): Boolean => {
+    return !!(get(masterNode) || get(xpubMasterNode));
+  };
+
   export const routes: IRouteMap<IRouteParameter> = {
     "/": {
       name: "HOME",
@@ -34,8 +39,7 @@
         component: UserProfile,
         conditions: [
           () => {
-            let loggedIn = get(masterNode);
-            if (!loggedIn) {
+            if (!loggedIn()) {
               push("/login");
               return false;
             }
@@ -51,8 +55,7 @@
         component: Login,
         conditions: [
           () => {
-            let loggedIn = get(masterNode);
-            if (loggedIn) {
+            if (loggedIn()) {
               push("/userprofile");
               return false;
             }

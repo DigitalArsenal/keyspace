@@ -56,24 +56,27 @@
     btcSegWitAddress = swaddress;
 
     xpub = mN.neutered().toBase58();
+    xpriv = mN.toBase58();
 
-    if (!$Seed) return;
-    let ethNode = ethHDNode.fromSeed($Seed);
-    let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
-    ethAddress = firstWallet.address;
+    if ($Seed) {
+      let ethNode = ethHDNode.fromSeed($Seed);
+      let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
+      ethAddress = firstWallet.address;
+    }
   });
-
+  /*
   xpubMasterNode.subscribe(async (xMN) => {
     if (!xMN) return;
     xpub = xMN.neutered().toBase58();
     let bip44Account = xMN.derive(0).derive(0);
+    bip44Account = xMN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
       pubkey: bip44Account.publicKey,
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcAddress = address;
   });
-
+  */
   const exportKey = (e) => {
     doExport = !doExport;
   };
@@ -83,9 +86,6 @@
   <div
     class="bg-gray-200 w-auto m-10 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
     <div class="text-2xl mb-10">Account Addresses</div>
-    <!--<h1 class="mb-5">
-      XPUB: {xpub}
-    </h1>-->
     <h1 class="mb-5">
       BTC:
       <a
@@ -113,9 +113,20 @@
       class="w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">
       {doExport ? "Hide" : "Export"}
     </button>
-    <textarea
+    <div
       class:hidden={!doExport}
-      class="w-9/12 h-40 font-bold py-2 px-4 rounded mt-10"
-      bind:value={$bip39Phrase} />
+      class="w-full flex items-center flex-col pt-10">
+      <h1 class="text-xs break-all mb-5">
+        XPUB:
+        {xpub}
+      </h1>
+      <h1 class="text-xs break-all mb-5">
+        XPRIV:
+        {xpriv}
+      </h1>
+      <textarea
+        class="w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
+        bind:value={$bip39Phrase} />
+    </div>
   </div>
 </div>

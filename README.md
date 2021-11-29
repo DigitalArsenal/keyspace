@@ -6,6 +6,8 @@
 - [ ] WIF
 - [ ] BIP39
 - [ ] PEM
+- [ ] xPub
+- [ ] xPriv
 
 ## Output
 
@@ -13,6 +15,8 @@
 - [ ] WIF
 - [ ] BIP39
 - [ ] PEM
+- [ ] xPub
+- [ ] xPriv
 
 ## Adding data providers
 

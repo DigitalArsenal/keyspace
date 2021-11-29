@@ -2,6 +2,7 @@ import { writable, get } from "svelte/store";
 import pbkdf2Worker from "../workers/pbkdf2.worker.js?worker&inline";
 import argon2Worker from "../workers/argon2.worker.js?worker&inline";
 import type workerGenerator from '*?worker&inline';
+import type { Writable } from "svelte/store";
 
 interface WorkerGeneratorHash {
   [index: string]: typeof workerGenerator

@@ -15,6 +15,16 @@
     bip39Phrase,
   } from "../stores/userprofile.store";
 
+  const hdMaster = (seed, network) => {
+    return bitcoinjs.bip32.fromSeed(seed, network);
+  };
+
+  const xPub = (seed, network) => {
+    const hdMaster = hdMaster(seed, network);
+    const xPub = hdMaster.neutered().toBase58();
+    return xPub;
+  };
+
   let _pkBuffer, _masterNode, _xpubMasterNode, fileinput;
   async function handleFilesSelect(e) {
     let files = {
@@ -56,7 +66,7 @@
     e.preventDefault();
     $masterNode = _masterNode;
     $xpubMasterNode = _xpubMasterNode;
-    $Seed= _pkBuffer;
+    $Seed = _pkBuffer;
     push("/userprofile");
   };
 </script>

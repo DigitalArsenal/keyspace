@@ -1,11 +1,9 @@
 <script>
   import Icon from "svelte-awesome";
   import * as Routes from "../routes/routes.svelte";
+  import Logout from "../Logout/Logout.svelte";
   import { push } from "svelte-spa-router";
-  import {
-    masterNode,
-    xpubMasterNode,
-  } from "../stores/userprofile.store";
+  import { masterNode, xpubMasterNode } from "../stores/userprofile.store";
   let { routes } = Routes;
 
   let open = false;
@@ -43,20 +41,10 @@
       </div>
     {/if}
   {/each}
-  {#if $masterNode}
-    <div class="absolute bottom-0 w-full">
-      <button
-        class="mt-10 w-full bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4"
-        on:click={(e) => {
-          $masterNode = null;
-          $xpubMasterNode = null;
-          push("/login");
-          open = false;
-        }}>
-        Logout
-      </button>
-    </div>
-  {/if}
+  <div
+    class="bg-red-800 flex h-12 w-full justify-center items-center text-white cursor-pointer">
+    <Logout />
+  </div>
 </div>
 
 <style>
