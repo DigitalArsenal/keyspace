@@ -7,10 +7,12 @@
   const HDNode = globalThis.bitcoinjs.bip32;
   const XPUBHDnode = globalThis.bitcoinjs.bip32;
   const { mnemonicToSeedSync, entropyToMnemonic } = globalThis.bitcoinjs.bip39;
+  const { payments, networks } = globalThis.bitcoinjs;
   //https://github.com/trezor/python-mnemonic/blob/master/vectors.json
   import {
     masterNode,
     xpubMasterNode,
+    xprivMasterNode,
     Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
@@ -58,7 +60,7 @@
 
       _masterNode = HDNode.fromSeed(_pkBuffer);
     } else if (textInput.match(/^xpub/)) {
-      _xpubMasterNode = HDNode.fromBase58(textInput);
+      _xpubMasterNode = HDNode.fromBase58(textInput, networks.bitcoin);
     } else if (textInput.match(/^xprv/)) {
       _xprivMasterNode = HDNode.fromBase58(textInput);
     }

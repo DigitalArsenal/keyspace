@@ -2,6 +2,7 @@
   import {
     masterNode,
     xpubMasterNode,
+    xprivMasterNode,
     Seed,
   } from "../stores/userprofile.store";
   import { push } from "svelte-spa-router";
@@ -23,7 +24,7 @@
   }
 
   const loggedIn = (): Boolean => {
-    return !!(get(masterNode) || get(xpubMasterNode));
+    return !!(get(masterNode) || get(xpubMasterNode) || get(xprivMasterNode));
   };
 
   export const routes: IRouteMap<IRouteParameter> = {

@@ -40,7 +40,8 @@
     2. Create a mapping for derivation path (probably in a store or something)
 
   */
-  masterNode.subscribe(async (mN) => {
+
+  const generateAddresses = async (mN) => {
     if (!mN) return;
     let bip44Account = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
@@ -64,19 +65,10 @@
       let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
       ethAddress = firstWallet.address;
     }
-  });
+  };
+  masterNode.subscribe(generateAddresses);
 
-  xprivMasterNode.subscribe(async (xprivMN) => {
-    if (!xprivMN) return;
-    xpub = xprivMN.neutered().toBase58();
-    let bip44Account = xprivMN.derive(0).derive(0);
-    bip44Account = xprivMN.derivePath("m/44'/0'/0'/0/0");
-    const { address } = payments.p2pkh({
-      pubkey: bip44Account.publicKey,
-      network: globalThis.bitcoinjs.bitcoin,
-    });
-    btcAddress = address;
-  });
+  xprivMasterNode.subscribe(generateAddresses);
 
   const exportKey = (e) => {
     doExport = !doExport;
@@ -125,7 +117,8 @@
         XPRIV:
         {xpriv}
       </h1>
-      <textarea readonly
+      <textarea
+        readonly
         class="resize-none w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
         bind:value={$bip39Phrase} />
     </div>
