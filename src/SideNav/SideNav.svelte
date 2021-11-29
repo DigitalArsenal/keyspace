@@ -3,7 +3,6 @@
   import * as Routes from "../routes/routes.svelte";
   import Logout from "../Logout/Logout.svelte";
   import { push } from "svelte-spa-router";
-  import { masterNode, xpubMasterNode } from "../stores/userprofile.store";
   let { routes } = Routes;
 
   let open = false;

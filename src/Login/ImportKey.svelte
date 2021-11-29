@@ -1,8 +1,6 @@
 <script lang="ts">
   //@ts-nocheck
   import { push } from "svelte-spa-router";
-  import { upload } from "svelte-awesome/icons";
-  import Icon from "svelte-awesome";
   import Dropzone from "svelte-file-dropzone";
   const HDNode = globalThis.bitcoinjs.bip32;
   const XPUBHDnode = globalThis.bitcoinjs.bip32;

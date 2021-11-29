@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Buffer } from "buffer";
   import {
     masterNode,
     xpubMasterNode,
@@ -9,7 +8,6 @@
   } from "../stores/userprofile.store";
   import * as ethers from "ethers";
   import QRCode from "qrcode";
-  import { push } from "svelte-spa-router";
   const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
     try {

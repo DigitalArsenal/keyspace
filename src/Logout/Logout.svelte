@@ -1,17 +1,14 @@
 <script lang="ts">
   import {
-    hashAlgorithmWorker,
     masterNode,
-    entropyLength,
-    Seed,
-    bip39Phrase,
     xpubMasterNode,
     xprivMasterNode,
+    isLoggedIn,
   } from "../stores/userprofile.store";
   import { push, pop, replace } from "svelte-spa-router";
 </script>
 
-{#if $masterNode || $xpubMasterNode || $xprivMasterNode}
+{#if $isLoggedIn}
   <div
     class="bg-red-800 flex h-12 w-full justify-center items-center text-white cursor-pointer">
     <div

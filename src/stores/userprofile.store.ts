@@ -21,8 +21,14 @@ export const bip39Phrase = writable(null);
 export const entropyLength = writable(16);
 export const hashAlgorithm = writable("argon2");
 export const hashAlgorithmWorker = writable(hashAlgorithms[get(hashAlgorithm)]);
+export const isLoggedIn = writable(false);
 
+const checkLoggedIn = () => {
+  isLoggedIn.set(!!(get(masterNode) || get(xpubMasterNode) || get(xprivMasterNode)));
+  console.log(get(isLoggedIn))
+}
 
+[xpubMasterNode, xprivMasterNode, masterNode].map(n => n.subscribe(checkLoggedIn))
 
 hashAlgorithm.subscribe((hA) => {
   hashAlgorithmWorker.update((hAW) => hashAlgorithms[hA]);

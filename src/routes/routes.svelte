@@ -1,12 +1,7 @@
 <script context="module" type="ts">
-  import {
-    masterNode,
-    xpubMasterNode,
-    xprivMasterNode,
-    Seed,
-  } from "../stores/userprofile.store";
-  import { push } from "svelte-spa-router";
+  import { isLoggedIn } from "../stores/userprofile.store";
   import { get } from "svelte/store";
+  import { push } from "svelte-spa-router";
 
   interface IRouteParameter {
     component: any;
@@ -23,10 +18,6 @@
     [index: number]: T;
   }
 
-  const loggedIn = (): Boolean => {
-    return !!(get(masterNode) || get(xpubMasterNode) || get(xprivMasterNode));
-  };
-
   export const routes: IRouteMap<IRouteParameter> = {
     "/": {
       name: "HOME",
@@ -40,7 +31,7 @@
         component: UserProfile,
         conditions: [
           () => {
-            if (!loggedIn()) {
+            if (!get(isLoggedIn)) {
               push("/login");
               return false;
             }
@@ -56,7 +47,7 @@
         component: Login,
         conditions: [
           () => {
-            if (loggedIn()) {
+            if (get(isLoggedIn)) {
               push("/userprofile");
               return false;
             }
