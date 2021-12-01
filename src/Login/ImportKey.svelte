@@ -50,7 +50,8 @@
     }
 
     if (textInput.split(/\s/g).length >= 12) {
-      textInput = textInput.replace(/\s/g, " ");
+      textInput = textInput.replace(/[\s\n\r]{1,}/g, " ");
+      console.log(textInput);
       bip39Phrase.set(textInput);
       _pkBuffer = mnemonicToSeedSync(textInput);
       _masterNode = HDNode.fromSeed(_pkBuffer);
