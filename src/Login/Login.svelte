@@ -89,7 +89,7 @@
           push("/importkey");
         }}
         class="w-full h-12 rounded-lg bg-red-600 text-gray-200 uppercase font-semibold hover:bg-red-700 text-gray-100 transition mb-4"
-        >Import Key</button>
+        >Import / Generate Key</button>
     </div>
   </div>
 </form>
