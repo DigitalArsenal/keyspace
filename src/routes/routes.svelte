@@ -1,5 +1,5 @@
 <script context="module" type="ts">
-  import { isLoggedIn } from "../stores/userprofile.store";
+  import { isLoggedIn } from "../stores/keyprofile.store";
   import { get } from "svelte/store";
   import { push } from "svelte-spa-router";
 
@@ -26,9 +26,9 @@
         component: MainPage,
       }),
     },
-    "/userprofile": {
+    "/keyprofile": {
       ...wrap({
-        component: UserProfile,
+        component: keyprofile,
         conditions: [
           () => {
             if (!get(isLoggedIn)) {
@@ -48,7 +48,7 @@
         conditions: [
           () => {
             if (get(isLoggedIn)) {
-              push("/userprofile");
+              push("/keyprofile");
               return false;
             }
             return true;
@@ -93,7 +93,7 @@
   import { wrap } from "svelte-spa-router/wrap";
   import MainPage from "../MainPage/MainPage.svelte";
   import Grid from "../Grid/Grid.svelte";
-  import UserProfile from "../UserProfile/ProfilePage.svelte";
+  import keyprofile from "../KeyProfile/ProfilePage.svelte";
   import Login from "../Login/Login.svelte";
   import ImportKey from "../Login/ImportKey.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";

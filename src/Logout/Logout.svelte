@@ -4,8 +4,9 @@
     xpubMasterNode,
     xprivMasterNode,
     isLoggedIn,
-  } from "../stores/userprofile.store";
+  } from "../stores/keyprofile.store";
   import { push, pop, replace } from "svelte-spa-router";
+  export let open;
 </script>
 
 {#if $isLoggedIn}
@@ -16,6 +17,7 @@
         $masterNode = null;
         $xpubMasterNode = null;
         $xprivMasterNode = null;
+        open = false;
         push("/login");
       }}>
       Logout

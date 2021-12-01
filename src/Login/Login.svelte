@@ -5,7 +5,7 @@
     entropyLength,
     Seed,
     bip39Phrase,
-  } from "../stores/userprofile.store";
+  } from "../stores/keyprofile.store";
   import { get } from "svelte/store";
   const bitcoinJSHDNode = globalThis.bitcoinjs.bip32;
   import Loading from "../widgets/Loading.svelte";
@@ -41,7 +41,7 @@
       bip39Phrase.set(await entropyToMnemonic(entropy));
       $Seed = await mnemonicToSeed(get(bip39Phrase));
       $masterNode = bitcoinJSHDNode.fromSeed($Seed);
-      push("/userprofile");
+      push("/keyprofile");
     });
   };
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts">
   //@ts-nocheck
   import { onMount } from "svelte";
-  import { hashAlgorithms, hashAlgorithm } from "../stores/userprofile.store";
+  import { hashAlgorithms, hashAlgorithm } from "../stores/keyprofile.store";
 
   const descriptions = {
     argon2: `Argon2 is a password-hashing function that summarizes the state of the art in the design of memory-hard functions and can be used to hash passwords for credential storage, key derivation, or other applications.`,

@@ -7,8 +7,8 @@
 
   let open = false;
   const doNav = (e, route) => {
-    open = false;
     push(route[0]);
+    open = false;
   };
 </script>
 
@@ -40,7 +40,7 @@
       </div>
     {/if}
   {/each}
-  <Logout />
+  <Logout {open} />
 </div>
 
 <style>

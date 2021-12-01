@@ -13,17 +13,7 @@
     xprivMasterNode,
     Seed,
     bip39Phrase,
-  } from "../stores/userprofile.store";
-
-  const hdMaster = (seed, network) => {
-    return bitcoinjs.bip32.fromSeed(seed, network);
-  };
-
-  const xPub = (seed, network) => {
-    const hdMaster = hdMaster(seed, network);
-    const xPub = hdMaster.neutered().toBase58();
-    return xPub;
-  };
+  } from "../stores/keyprofile.store";
 
   let _pkBuffer, _masterNode, _xpubMasterNode, _xprivMasterNode, fileinput;
   async function handleFilesSelect(e) {
@@ -55,7 +45,6 @@
       textInput = textInput.replace(/\s/g, " ");
       bip39Phrase.set(textInput);
       _pkBuffer = mnemonicToSeedSync(textInput);
-
       _masterNode = HDNode.fromSeed(_pkBuffer);
     } else if (textInput.match(/^xpub/)) {
       _xpubMasterNode = HDNode.fromBase58(textInput, networks.bitcoin);
@@ -70,7 +59,7 @@
     $xpubMasterNode = _xpubMasterNode;
     $xprivMasterNode = _xprivMasterNode;
     $Seed = _pkBuffer;
-    push("/userprofile");
+    push("/keyprofile");
   };
 </script>
 
@@ -121,7 +110,7 @@
       : 'bg-gray-600'} hover:bg-gray-600 text-white font-bold  py-3"
     type="submit">Import</button>
   <button
-    on:click={(e) => push("/userprofile")}
+    on:click={(e) => push("/keyprofile")}
     class="w-4/6 mt-5 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3"
     >Back</button>
 </form>
