@@ -14,7 +14,6 @@
   let username,
     password,
     pin,
-    passwordRules = `At least 16 characters`,
     pinLength = [1, 2],
     loading,
     message = "Generating keys, this may take a few seconds.";
@@ -66,7 +65,8 @@
         class="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
         id="userPass"
         placeholder="Password"
-        minlength="16"
+        minlength="24"
+        title="min length 24 characters"
         bind:value={password}
         required />
       <input
