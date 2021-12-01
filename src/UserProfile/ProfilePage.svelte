@@ -1,14 +1,13 @@
 <script lang="ts">
-  import { Buffer } from "buffer";
   import {
     masterNode,
     xpubMasterNode,
+    xprivMasterNode,
     Seed,
     bip39Phrase,
   } from "../stores/userprofile.store";
   import * as ethers from "ethers";
   import QRCode from "qrcode";
-  import { push } from "svelte-spa-router";
   const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
     try {
@@ -25,7 +24,7 @@
     btcSegWitAddress,
     ethAddress,
     xpriv,
-    xpub,
+    hexkey,
     doExport = false;
 
   let api_servers = [
@@ -39,7 +38,8 @@
     2. Create a mapping for derivation path (probably in a store or something)
 
   */
-  masterNode.subscribe(async (mN) => {
+
+  const generateAddresses = async (mN) => {
     if (!mN) return;
     let bip44Account = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
@@ -47,36 +47,25 @@
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcAddress = address;
-
+    //mN.derivePath("m/44'/0'/0'").toBase58() - Account
     let bip84Account = mN.derivePath("m/84'/0'/0'/0/0");
     const { address: swaddress } = payments.p2wpkh({
       pubkey: bip84Account.publicKey,
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcSegWitAddress = swaddress;
-
-    xpub = mN.neutered().toBase58();
     xpriv = mN.toBase58();
-
+    console.log(mN.privateKey.toString("hex"));
     if ($Seed) {
       let ethNode = ethHDNode.fromSeed($Seed);
       let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
       ethAddress = firstWallet.address;
     }
-  });
-  /*
-  xpubMasterNode.subscribe(async (xMN) => {
-    if (!xMN) return;
-    xpub = xMN.neutered().toBase58();
-    let bip44Account = xMN.derive(0).derive(0);
-    bip44Account = xMN.derivePath("m/44'/0'/0'/0/0");
-    const { address } = payments.p2pkh({
-      pubkey: bip44Account.publicKey,
-      network: globalThis.bitcoinjs.bitcoin,
-    });
-    btcAddress = address;
-  });
-  */
+  };
+  masterNode.subscribe(generateAddresses);
+
+  xprivMasterNode.subscribe(generateAddresses);
+
   const exportKey = (e) => {
     doExport = !doExport;
   };
@@ -117,15 +106,12 @@
       class:hidden={!doExport}
       class="w-full flex items-center flex-col pt-10">
       <h1 class="text-xs break-all mb-5">
-        XPUB:
-        {xpub}
-      </h1>
-      <h1 class="text-xs break-all mb-5">
-        XPRIV:
+        Root Key:
         {xpriv}
       </h1>
       <textarea
-        class="w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
+        readonly
+        class="resize-none w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
         bind:value={$bip39Phrase} />
     </div>
   </div>

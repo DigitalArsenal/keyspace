@@ -1,22 +1,26 @@
 <script lang="ts">
   import {
-    hashAlgorithmWorker,
     masterNode,
-    entropyLength,
-    Seed,
-    bip39Phrase,
     xpubMasterNode,
+    xprivMasterNode,
+    isLoggedIn,
   } from "../stores/userprofile.store";
   import { push, pop, replace } from "svelte-spa-router";
+  export let close;
 </script>
 
-{#if $masterNode || $xpubMasterNode}
+{#if $isLoggedIn}
   <div
-    on:click={(e) => {
-      $masterNode = null;
-      $xpubMasterNode = null;
-      push("/login");
-    }}>
-    Logout
+    class="bg-red-800 flex h-12 w-full justify-center items-center text-white cursor-pointer">
+    <div
+      on:click={(e) => {
+        $masterNode = null;
+        $xpubMasterNode = null;
+        $xprivMasterNode = null;
+        close();
+        push("/login");
+      }}>
+      Logout
+    </div>
   </div>
 {/if}

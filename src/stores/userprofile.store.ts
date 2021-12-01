@@ -15,13 +15,19 @@ export const hashAlgorithms: WorkerGeneratorHash = {
 
 export const masterNode = writable(null);
 export const xpubMasterNode = writable(null);
+export const xprivMasterNode = writable(null);
 export const Seed = writable(null);
 export const bip39Phrase = writable(null);
 export const entropyLength = writable(16);
 export const hashAlgorithm = writable("argon2");
 export const hashAlgorithmWorker = writable(hashAlgorithms[get(hashAlgorithm)]);
+export const isLoggedIn = writable(false);
 
+const checkLoggedIn = () => {
+  isLoggedIn.set(!!(get(masterNode) || get(xpubMasterNode) || get(xprivMasterNode)));
+}
 
+[xpubMasterNode, xprivMasterNode, masterNode].map(n => n.subscribe(checkLoggedIn))
 
 hashAlgorithm.subscribe((hA) => {
   hashAlgorithmWorker.update((hAW) => hashAlgorithms[hA]);

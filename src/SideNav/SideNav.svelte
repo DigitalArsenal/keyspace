@@ -3,13 +3,14 @@
   import * as Routes from "../routes/routes.svelte";
   import Logout from "../Logout/Logout.svelte";
   import { push } from "svelte-spa-router";
-  import { masterNode, xpubMasterNode } from "../stores/userprofile.store";
   let { routes } = Routes;
 
   let open = false;
+  let close = () => (open = false);
+
   const doNav = (e, route) => {
-    open = false;
     push(route[0]);
+    close();
   };
 </script>
 
@@ -41,10 +42,7 @@
       </div>
     {/if}
   {/each}
-  <div
-    class="bg-red-800 flex h-12 w-full justify-center items-center text-white cursor-pointer">
-    <Logout />
-  </div>
+  <Logout {close} />
 </div>
 
 <style>
