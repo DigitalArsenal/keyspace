@@ -47,7 +47,7 @@
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcAddress = address;
-
+    //mN.derivePath("m/44'/0'/0'").toBase58() - Account
     let bip84Account = mN.derivePath("m/84'/0'/0'/0/0");
     const { address: swaddress } = payments.p2wpkh({
       pubkey: bip84Account.publicKey,
@@ -55,7 +55,7 @@
     });
     btcSegWitAddress = swaddress;
     xpriv = mN.toBase58();
-    console.log(mN.privateKey.toString('hex'));
+    console.log(mN.privateKey.toString("hex"));
     if ($Seed) {
       let ethNode = ethHDNode.fromSeed($Seed);
       let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
