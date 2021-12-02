@@ -117,7 +117,7 @@
         style="width:70vw"
         class="self-center max-w-screen-sm bg-gray-200 h-auto rounded-lg grid gap-y-4 p-12 items-center justify-center">
         {#if !tab}
-          <div class="relative w-96">
+          <div class="relative">
             {#if !tboxValue?.length}
               <p
                 class="pointer-events-none absolute w-full h-full flex items-center text-gray-400 justify-center">
@@ -131,7 +131,7 @@
           </div>
           <div class=" text-center">OR</div>
           <Dropzone
-            containerClasses={["w-full rounded-lg cursor-pointer"]}
+            containerClasses={["w-full rounded-lg cursor-pointer w-full"]}
             on:drop={handleFilesSelect} />
           <button
             type="submit"
