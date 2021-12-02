@@ -25,7 +25,7 @@
 </div>
 <div
   class:sidenavOpen={open}
-  class="sidenav z-10 h-screen fixed transition-all select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-blue-900 w-56">
+  class="sidenav z-10 h-screen select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-blue-900 w-56">
   {#each Object.entries(routes) as route, r}
     {#if route[1].icon}
       <div
@@ -48,6 +48,8 @@
 <style>
   .sidenav {
     left: -100%;
+    position:fixed;
+    will-change: left;
     transform: translate3d(0, 0, 0);
     box-shadow: 2px 0px 2px 0px rgba(0, 0, 0, 0.65);
   }
@@ -55,9 +57,11 @@
     left: 0px;
   }
   .topen {
+    transform: translate3d(0, 0, 0);
     @apply transform translate-y-2.5 rotate-45;
   }
   .bopen {
+    transform: translate3d(0, 0, 0);
     @apply transform -translate-y-2.5 -rotate-45;
   }
 </style>

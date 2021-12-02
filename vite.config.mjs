@@ -6,6 +6,9 @@ import polyfill from "rollup-plugin-polyfill-node";
 
 export default defineConfig({
   plugins: [svelte(), viteSingleFile()],
+  server: {
+    host: "0.0.0.0"
+  },
   css: {
     postcss
   },
