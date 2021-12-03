@@ -70,8 +70,8 @@
     console.log("SIG", signature.toString("base64"));
 
     console.log(new Array(50).join("-"));
-    const accountFirstAddress = rootNode.derivePath("m/44'/0'/0'/0/0");
-    const { address: firstNodeAddress } = payments.p2pkh({
+    const accountFirstAddress = rootNode.derivePath("m/84'/0'/0'/0/0");
+    const addressResult = payments.p2wpkh({
       pubkey: accountFirstAddress.publicKey,
       network: globalThis.bitcoinjs.bitcoin,
     });
@@ -79,7 +79,26 @@
     console.log(accountFirstAddress.neutered().toBase58());
 
     console.log(accountFirstAddress.publicKey.toString("hex"));
-    console.log(firstNodeAddress);
+    console.log(addressResult.address, addressResult);
+    var signature = message.sign(
+      mnemonic,
+      accountFirstAddress.privateKey,
+      accountNode.compressed
+    );
+    console.log("SIG", signature.toString("base64"));
+
+    console.log(new Array(50).join("-"));
+
+    const { p2sh, p2wsh, p2pk } = payments;
+
+    const addressResult49 = p2sh({
+      redeem: p2wsh({
+        redeem: p2pk({
+          pubkey: accountFirstAddress.publicKey,
+        }),
+      }),
+    });
+    console.log(addressResult49.address, addressResult);
     var signature = message.sign(
       mnemonic,
       accountFirstAddress.privateKey,
