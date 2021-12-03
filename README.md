@@ -61,7 +61,7 @@
     - [ ] https://blockchain.info/
 
 
-# Types of trust relationships
+## Types of trust relationships
 
 - [ ] Boomerang trust (sent / return)
 - [ ] Total trust level $$
