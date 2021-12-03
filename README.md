@@ -48,7 +48,7 @@
         - Unknown (default, not trusted)
         - Undefined (manually set, not trusted)
         - Never (DO NOT TRUST THIS KEY)
-        - Marginal ()
+        - Marginal (trust by a N keys to be trusted, fill in N in metadata)
 
 - [ ] Serialization format
 - [ ] Compression / Encryption
