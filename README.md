@@ -1,4 +1,4 @@
-[KeySpace.App](https://keyspace.app))
+[KeySpace.App](https://keyspace.app)
 
 # TODO
 
