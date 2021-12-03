@@ -40,11 +40,15 @@
 ## Storage Schema
 
 - [ ] Bit mapping for message types
- - [ ] Info Message
- - [ ] Account Data
- - [ ] Trust Establish (use [PGP Levels](https://gpgtools.tenderapp.com/kb/faq/what-is-ownertrust-trust-levels-explained))
- - [ ] Trust Modify
- - [ ] Trust Revoke
+    - [ ] Info Message
+    - [ ] Account Data
+    - [ ] Trust (use [PGP Levels](https://gpgtools.tenderapp.com/kb/faq/what-is-ownertrust-trust-levels-explained))
+        - Ultimate (own keys)
+        - Full (trust to sign other keys)
+        - Unknown (default, not trusted)
+        - Undefined (manually set, not trusted)
+        - Never (DO NOT TRUST THIS KEY)
+        - Marginal ()
 
 - [ ] Serialization format
 - [ ] Compression / Encryption
