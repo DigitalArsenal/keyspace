@@ -50,11 +50,11 @@
     }
 
     if (textInput.split(/\s/g).length >= 12) {
-      textInput = textInput.replace(/[\s\n\r]{1,}/g, " ");
-      console.log(textInput);
+      textInput = textInput.replace(/[\s\n\r]{1,}/g, " ").trim();
+     
       bip39Phrase.set(textInput);
       _pkBuffer = mnemonicToSeedSync(textInput);
-      _masterNode = HDNode.fromSeed(_pkBuffer);
+      _masterNode = HDNode.fromSeed(_pkBuffer, networks.bitcoin);
     } else if (textInput.match(/^xpub/)) {
       _xpubMasterNode = HDNode.fromBase58(textInput, networks.bitcoin);
     } else if (textInput.match(/^xprv/)) {
@@ -84,7 +84,7 @@
   key<span class="font-bold">space</span></label>
 <form on:submit={handleOnSubmit} method="post">
   <div
-    class="text-gray-800 w-full h-screen grid gridMain items-center justify-center">
+    class="text-gray-800 w-full h-screen grid gridMain gap-y-4 items-center justify-center">
     <div class="self-end">
       <ul
         class="max-w-screen-sm grid grid-cols-2 gap-x-4 items-center justify-center text-2xl">
@@ -114,8 +114,7 @@
     </div>
     <div class="w-full h-full flex justify-center p-1">
       <div
-        style="width:70vw"
-        class="self-center max-w-screen-sm bg-gray-200 h-auto rounded-lg grid gap-y-4 p-12 items-center justify-center">
+        class="self-start items-center justify-center self-align max-w-screen-sm bg-gray-200 h-auto rounded-lg grid gap-y-4 p-12 ">
         {#if !tab}
           <div class="relative">
             {#if !tboxValue?.length}
@@ -125,6 +124,14 @@
               </p>
             {/if}
             <textarea
+              on:keypress={(event) => {
+                if (
+                  event.which === 13 ||
+                  event.keyCode === 13 ||
+                  event.key === "Enter"
+                )
+                  event.stopPropagation();
+              }}
               bind:value={tboxValue}
               class="w-full h-40 rounded-lg text-center p-5"
               on:input={({ target: { value } }) => readFile(value)} />

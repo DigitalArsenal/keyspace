@@ -6,11 +6,14 @@
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "baseUrl": ".",
+    "isolatedModules": false,
     "typeRoots": [
-      "./lib/keyconvert", 
+      "./lib/keyconvert",
       "./lib/bitcoinjs/types",
-      "./node_modules/vite", 
-      "./node_modules/vite/types"],
+      "./lib/bitcoinjs-message/",
+      "./node_modules/vite",
+      "./node_modules/vite/types"
+    ],
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
      * Disable checkJs if you'd like to use dynamic types in JS.

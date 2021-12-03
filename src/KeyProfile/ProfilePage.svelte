@@ -8,6 +8,8 @@
   } from "../stores/keyprofile.store";
   import * as ethers from "ethers";
   import QRCode from "qrcode";
+  import { mnemonicToSeed } from "@ethersproject/hdnode";
+
   const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
     try {
@@ -18,32 +20,76 @@
   };
 
   const { HDNode: ethHDNode } = ethers.utils;
-  let { payments } = globalThis.bitcoinjs;
+  let { payments, bip32: HDNode } = globalThis.bitcoinjs;
 
   let btcAddress,
     btcSegWitAddress,
     ethAddress,
     xpriv,
     hexkey,
-    doExport = false;
+    doExport = false,
+    activeAccount = 0,
+    activeProfile: Exportable.Profile = { accounts: [], mnemonic: null };
 
   let api_servers = [
     "https://api.blockcypher.com/v1/btc/main/addrs/",
     "https://blockchain.info/rawaddr/",
   ];
 
-  /*
-    TODO:
-    1. Generate HARDENED and NON-HARDENED addresses.
-    2. Create a mapping for derivation path (probably in a store or something)
+  /**
+   *   m’ / purpose’ / coin_type’ / account’ / change / address_index
+   *
+   */
+  const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
+  const { message } = globalThis.bitcoinjs;
 
-  */
-
-  const generateAddresses = async (mN) => {
+  const initAccount = async (mN) => {
     if (!mN) return;
-    let bip44Account = mN.derivePath("m/44'/0'/0'/0/0");
+    console.log($Seed);
+    let mnemonic =
+      "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
+
+    let _seed = mnemonicToSeedSync(mnemonic);
+    const rootNode = HDNode.fromSeed(_seed);
+    const accountNode = rootNode.derivePath("m/44'/0'/0'");
+    const { address: accountNodeAddress } = payments.p2pkh({
+      pubkey: accountNode.publicKey,
+      network: globalThis.bitcoinjs.bitcoin,
+    });
+
+    console.log(accountNode.toBase58());
+    console.log(accountNode.neutered().toBase58());
+    console.log(accountNode.publicKey.toString("hex"));
+    console.log(accountNodeAddress);
+
+    var signature = message.sign(
+      mnemonic,
+      accountNode.privateKey,
+      accountNode.compressed
+    );
+    console.log("SIG", signature.toString("base64"));
+
+    console.log(new Array(50).join("-"));
+    const accountFirstAddress = rootNode.derivePath("m/44'/0'/0'/0/0");
+    const { address: firstNodeAddress } = payments.p2pkh({
+      pubkey: accountFirstAddress.publicKey,
+      network: globalThis.bitcoinjs.bitcoin,
+    });
+    console.log(accountFirstAddress.toBase58());
+    console.log(accountFirstAddress.neutered().toBase58());
+
+    console.log(accountFirstAddress.publicKey.toString("hex"));
+    console.log(firstNodeAddress);
+    var signature = message.sign(
+      mnemonic,
+      accountFirstAddress.privateKey,
+      accountNode.compressed
+    );
+    console.log("SIG", signature.toString("base64"));
+    /*
+    let accountKeys = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
-      pubkey: bip44Account.publicKey,
+      pubkey: accountKeys.publicKey,
       network: globalThis.bitcoinjs.bitcoin,
     });
     btcAddress = address;
@@ -60,11 +106,16 @@
       let ethNode = ethHDNode.fromSeed($Seed);
       let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
       ethAddress = firstWallet.address;
-    }
+    }*/
   };
-  masterNode.subscribe(generateAddresses);
 
-  xprivMasterNode.subscribe(generateAddresses);
+  const exportAccount = () => {};
+
+  const importAccount = () => {};
+
+  masterNode.subscribe(initAccount);
+
+  xprivMasterNode.subscribe(initAccount);
 
   const exportKey = (e) => {
     doExport = !doExport;

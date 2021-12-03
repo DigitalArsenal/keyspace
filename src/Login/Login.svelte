@@ -86,6 +86,7 @@
       <label for="" class="text-gray-800 mb-4">or</label>
       <button
         on:click={(e) => {
+          e.preventDefault();
           push("/importkey");
         }}
         class="w-full h-12 rounded-lg bg-red-600 text-gray-200 uppercase font-semibold hover:bg-red-700 text-gray-100 transition mb-4"
