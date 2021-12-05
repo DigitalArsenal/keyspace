@@ -48,7 +48,7 @@
     "keypair": "^1.0.4",
     "libp2p-crypto": "^0.19.7",
     "pbkdf2": "^3.1.2",
-    "peer-id": "^0.15.3",
+    "peer-id": "^0.15.4",
     "pvtsutils": "^1.2.1",
     "qrcode": "^1.4.4",
     "readable-stream": "npm:vite-compatible-readable-stream@^3.6.0",
