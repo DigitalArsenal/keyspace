@@ -9,6 +9,9 @@
   import * as ethers from "ethers";
   import QRCode from "qrcode";
   import { mnemonicToSeed } from "@ethersproject/hdnode";
+  import p2pCrypto from "libp2p-crypto";
+  import peerID from "../../lib/peerid.min.js";
+  import type PeerId from "../../lib/peerid.min.js";
 
   const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
@@ -105,6 +108,19 @@
       accountNode.compressed
     );
     console.log("SIG", signature.toString("base64"));
+
+    //This is hard-coded to secp256k1 for BTC and ETH, even though Ed25519 keys are available
+    let convertedKey =
+      new p2pCrypto.keys.supportedKeys.secp256k1.Secp256k1PrivateKey(
+        accountFirstAddress.privateKey,
+        accountFirstAddress.publicKey
+      );
+    let pID: PeerId = await peerID.createFromPrivKey(
+      p2pCrypto.keys.marshalPrivateKey(convertedKey),
+      "secp256k1"
+    );
+
+    console.log(accountFirstAddress.publicKey, pID.toString(), pID.toPrint(), pID.marshal(), pID.marshalPubKey());
     /*
     let accountKeys = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
