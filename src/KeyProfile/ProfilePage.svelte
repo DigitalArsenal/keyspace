@@ -4,40 +4,25 @@
     xpubMasterNode,
     xprivMasterNode,
     Seed,
-    bip39Phrase,
   } from "../stores/keyprofile.store";
-  import * as ethers from "ethers";
-  import QRCode from "qrcode";
-  import { mnemonicToSeed } from "@ethersproject/hdnode";
   import p2pCrypto from "libp2p-crypto";
-  import peerID from "../../lib/peerid.min.js";
-  import type PeerId from "../../lib/peerid.min.js";
-
-  const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
-  const generateQR = async (text) => {
-    try {
-      return await QRCode.toDataURL(text);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const { HDNode: ethHDNode } = ethers.utils;
   let { payments, bip32: HDNode } = globalThis.bitcoinjs;
 
-  let btcAddress,
-    btcSegWitAddress,
-    ethAddress,
-    xpriv,
-    hexkey,
-    doExport = false,
-    activeAccount = 0,
-    activeProfile: Exportable.Profile = { accounts: [], mnemonic: null };
+  let addresses = {
+    "44": null,
+    "49": null,
+    "84": null,
+  };
 
-  let api_servers = [
-    "https://api.blockcypher.com/v1/btc/main/addrs/",
-    "https://blockchain.info/rawaddr/",
-  ];
+  let account = 0;
+
+  const getBalance = function (btcAddress) {
+    fetch(
+      `https://btc.digitalarsenal.io/blockexplorer?chain=btc&address=${btcAddress}`
+    )
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
 
   /**
    *   m’ / purpose’ / coin_type’ / account’ / change / address_index
@@ -48,6 +33,7 @@
 
   const initAccount = async (mN) => {
     if (!mN) return;
+    getBalance("1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7");
     console.log($Seed);
     let mnemonic =
       "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
@@ -120,7 +106,13 @@
       "secp256k1"
     );
 
-    console.log(accountFirstAddress.publicKey, pID.toString(), pID.toPrint(), pID.marshal(), pID.marshalPubKey());
+    console.log(
+      accountFirstAddress.publicKey,
+      pID.toString(),
+      pID.toPrint(),
+      pID.marshal(),
+      pID.marshalPubKey()
+    );
     /*
     let accountKeys = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
@@ -145,60 +137,17 @@
   };
 
   const exportAccount = () => {};
-
-  const importAccount = () => {};
-
-  masterNode.subscribe(initAccount);
-
-  xprivMasterNode.subscribe(initAccount);
+  [masterNode, xprivMasterNode].forEach((c) => c.subscribe(initAccount));
 
   const exportKey = (e) => {
     doExport = !doExport;
   };
 </script>
 
-<div class="text-gray-800 w-full h-screen flex items-center justify-center">
+<div
+  class="text-gray-800 w-full h-screen flex items-center p-20 justify-center">
   <div
-    class="bg-gray-200 w-auto m-10 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
-    <div class="text-2xl mb-10">Account Addresses</div>
-    <h1 class="mb-5">
-      BTC:
-      <a
-        class="text-blue-600"
-        href="https://www.blockchain.com/btc/address/{btcAddress}">
-        {btcAddress}
-      </a>
-    </h1>
-    <h1 class="mb-5">
-      BTC (SegWit):
-      <a
-        class="text-blue-600"
-        href="https://www.blockchain.com/btc/address/{btcSegWitAddress}">
-        {btcSegWitAddress}
-      </a>
-    </h1>
-    <h1 class="mb-5">
-      ETH:
-      <a class="text-blue-600" href="https://etherscan.io/address/{ethAddress}">
-        {ethAddress}
-      </a>
-    </h1>
-    <button
-      on:click={exportKey}
-      class="w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">
-      {doExport ? "Hide" : "Export"}
-    </button>
-    <div
-      class:hidden={!doExport}
-      class="w-full flex items-center flex-col pt-10">
-      <h1 class="text-xs break-all mb-5">
-        Root Key:
-        {xpriv}
-      </h1>
-      <textarea
-        readonly
-        class="resize-none w-9/12 h-30 font-bold py-2 px-4 rounded mt-10"
-        bind:value={$bip39Phrase} />
-    </div>
+    class="bg-gray-200 w-full h-full rounded-lg p-10 flex flex-col items-center">
+    <h1>Test</h1>
   </div>
 </div>
