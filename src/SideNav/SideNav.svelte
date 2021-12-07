@@ -5,8 +5,8 @@
   import { push } from "svelte-spa-router";
   let { routes } = Routes;
 
-  let open = false;
-  let close = () => (open = false);
+  export let open = false;
+  export let close = () => (open = false);
 
   const doNav = (e, route) => {
     push(route[0]);
@@ -25,7 +25,7 @@
 </div>
 <div
   class:sidenavOpen={open}
-  class="sidenav z-10 h-screen select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-blue-900 w-56">
+  class="sidenav z-10 h-screen select-none filter drop-shadow-lg border-r-1h border-gray-600 flex flex-col pt-12 gap-5 justify-start bg-gray-800 w-56">
   {#each Object.entries(routes) as route, r}
     {#if route[1].icon}
       <div

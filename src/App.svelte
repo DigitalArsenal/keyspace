@@ -1,10 +1,15 @@
 <script>
   import SideNav from "./SideNav/SideNav.svelte";
   import Routes from "./routes/routes.svelte";
+  let close;
 </script>
 
-<SideNav />
-<div class="bg-gray-800 text-white w-full h-full h-screen">
+<SideNav bind:close />
+<div
+  on:click={(e) => {
+    close();
+  }}
+  class="bg-gray-800 text-white w-full h-full h-screen">
   <Routes />
 </div>
 
