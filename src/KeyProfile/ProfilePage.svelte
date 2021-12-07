@@ -1,7 +1,7 @@
 <script lang="ts">
   import Icon from "svelte-awesome";
 
-  import { btc, questionCircle } from "svelte-awesome/icons";
+  import { btc, questionCircle, copy } from "svelte-awesome/icons";
 
   import {
     masterNode,
@@ -21,11 +21,32 @@
     address_index: { value: 0, h: "" },
   };
 
-  let network = networks.bitcoin;
+  const getBIP32AccountPath = () => {
+    let b = bip32Path;
+    let x = (pathSegment) => `${pathSegment.value}${pathSegment.h}`;
+    return `m/${x(b.purpose)}/${x(b.cointype)}/${x(b.account)}`;
+  };
+
+  let networkObj = {
+    "btc-testnet": {
+      network: networks.testnet,
+      coin: "btc",
+      chain: "test3",
+    },
+    btc: {
+      network: networks.bitcoin,
+      coin: "btc",
+      chain: "main",
+    },
+  };
+  let activeNetwork = "btc";
+
   let accounts: Array<string> = ["Default"];
   interface AccountStatusArray {
     [key: string]: BlockCypherAPI.Address;
   }
+
+  let accountNode: typeof HDNode;
 
   let accountStatus: AccountStatusArray = {};
   let rollupAccount: BlockCypherAPI.Address = {
@@ -45,27 +66,49 @@
   };
 
   const getBalance = async function (btcAddress) {
+    let { coin, chain } = networkObj[activeNetwork];
     let f = await fetch(
-      `https://btc.digitalarsenal.io/blockexplorer?chain=btc&address=${btcAddress}`
+      `https://btc.digitalarsenal.io/blockexplorer?coin=${coin}&chain=${chain}&address=${btcAddress}`
     );
     return await f.json();
   };
 
-  const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
-  const { message } = globalThis.bitcoinjs;
-
   const initAccount = async (mN) => {
     if (!mN) return;
-    let btcAddress = "1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7";
-    accountStatus[btcAddress] = await getBalance(btcAddress);
+    accountNode = mN.derivePath(getBIP32AccountPath());
+    const { address: accountNodeAddress } = payments.p2pkh({
+      pubkey: accountNode.publicKey,
+      network: networkObj[activeNetwork].network,
+    });
+    accountStatus[accountNodeAddress] = await getBalance(accountNodeAddress);
     rollupAccount.balance = 0;
     for (let account in accountStatus) {
       rollupAccount.balance += accountStatus[account].balance;
     }
+
+    console.log(accountNode.toBase58());
+    console.log(accountNode.neutered().toBase58());
+    console.log(accountNode.publicKey.toString("hex"));
+    console.log(accountNodeAddress);
   };
 
   const exportAccount = () => {};
+
   [masterNode, xprivMasterNode].forEach((c) => c.subscribe(initAccount));
+
+  let signtext = "";
+  let signatureb64 = "";
+  const { message } = globalThis.bitcoinjs;
+
+  const signMessage = (e) => {
+    signtext = signtext.trim();
+    var signature = message.sign(
+      signtext,
+      accountNode.privateKey,
+      accountNode.compressed
+    );
+    signatureb64 = signature.toString("base64");
+  };
 </script>
 
 <div
@@ -74,13 +117,13 @@
     class="text-white w-full h-full rounded-lg p-10 flex flex-col items-center">
     <!--Balance-->
     <div
+      class="flex items-center align-center md:text-lg text-xs md:left-2 pl-2 pr-2">
+      Trust Level (Balance)
+      <Icon class="transform scale-100 ml-2" data={questionCircle} />
+    </div>
+    <div
       id="balance"
-      class="relative flex justify-center items-center md:text-4xl text-2xl border-1 rounded-md border-gray-500 md:p-10 p-7">
-      <div
-        class="flex items-center align-center md:text-lg text-xs absolute -top-5 md:left-2 pl-2 pr-2">
-        Trust Level (Balance)
-        <Icon class="transform scale-100 ml-2" data={questionCircle} />
-      </div>
+      class="w-1/2 flex justify-center items-center md:text-4xl text-2xl border-1 rounded-md border-gray-500 md:p-10 p-7">
       {rollupAccount.balance / 100_000_000}
       <Icon class="transform scale-125 ml-3" data={btc} />
     </div>
@@ -93,15 +136,47 @@
               >m'/{bip32Path.purpose.value}{bip32Path.purpose.h}/{bip32Path
                 .cointype.value}{bip32Path.cointype.h}/{bip32Path.account
                 .value}{bip32Path.account.h}:
-                {accounts[
-                bip32Path.account.value
-              ]}</option>
+              {accounts[bip32Path.account.value]}</option>
           {/each}
         </select>
       </label>
       {#each Object.entries(accountStatus) as btcaddress, i}
-        <div class="text-xs">{btcaddress[0]}</div>
+        <div
+          class="text-xs flex items-center"
+          on:click={(e) => {
+            console.log(btcaddress[0]);
+            navigator.clipboard.writeText(btcaddress[0]);
+          }}>
+          {btcaddress[0]}
+          <Icon data={copy} class="cursor-pointer ml-2" />
+        </div>
       {/each}
+      <textarea class="rounded-md h-20 p-2 text-black" bind:value={signtext} />
+      <div
+        class="relative -top-10"
+        on:click={(e) => {
+          navigator.clipboard.writeText(signtext);
+        }}>
+        <Icon data={copy} class="cursor-pointer ml-2" />
+      </div>
+      <div
+        style="word-break:break-all;width:200px"
+        class="text-xs flex items-center"
+        on:click={(e) => {
+          navigator.clipboard.writeText(signatureb64);
+        }}>
+        {signatureb64}
+      </div>
+      <div
+        class="relative -top-10"
+        on:click={(e) => {
+          navigator.clipboard.writeText(signatureb64);
+        }}>
+        <Icon data={copy} class="cursor-pointer ml-2" />
+      </div>
+      <button
+        class="border-1 rounded-md border-white p-2"
+        on:click={(e) => signMessage(e)}>Sign Message</button>
     </div>
   </div>
 </div>
