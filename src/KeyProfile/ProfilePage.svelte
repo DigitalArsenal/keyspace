@@ -12,6 +12,7 @@
   import p2pCrypto from "libp2p-crypto";
   import peerID from "../../lib/peerid.min.js";
   import type PeerId from "../../lib/peerid.min.js";
+  import { saveAs } from "file-saver";
 
   const { entropyToMnemonic } = globalThis.bitcoinjs.bip39;
   const generateQR = async (text) => {
@@ -45,7 +46,7 @@
    */
   const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
   const { message } = globalThis.bitcoinjs;
-
+  let downloadKey;
   const initAccount = async (mN) => {
     if (!mN) return;
     console.log($Seed);
@@ -119,8 +120,15 @@
       p2pCrypto.keys.marshalPrivateKey(convertedKey),
       "secp256k1"
     );
+    downloadKey = pID.marshal();
 
-    console.log(accountFirstAddress.publicKey, pID.toString(), pID.toPrint(), pID.marshal(), pID.marshalPubKey());
+    console.log(
+      accountFirstAddress.publicKey,
+      pID.toString(),
+      pID.toPrint(),
+      pID.marshal(),
+      pID.marshalPubKey()
+    );
     /*
     let accountKeys = mN.derivePath("m/44'/0'/0'/0/0");
     const { address } = payments.p2pkh({
@@ -155,12 +163,24 @@
   const exportKey = (e) => {
     doExport = !doExport;
   };
+
+  const exportIPNSKey = () => {
+    saveAs(
+      /*@ts-ignore*/
+      new Blob([downloadKey], { type: "application/octet-stream" }),
+      "importkey.test.key"
+    );
+  };
 </script>
 
 <div class="text-gray-800 w-full h-screen flex items-center justify-center">
   <div
     class="bg-gray-200 w-auto m-10 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
     <div class="text-2xl mb-10">Account Addresses</div>
+    <button
+      on:click={(e) => {
+        exportIPNSKey();
+      }}>Download IPNS Key</button>
     <h1 class="mb-5">
       BTC:
       <a
