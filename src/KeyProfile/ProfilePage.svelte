@@ -77,7 +77,7 @@
       id="balance"
       class="relative flex justify-center items-center md:text-4xl text-2xl border-1 rounded-md border-gray-500 md:p-10 p-7">
       <div
-        class="flex items-center align-center md:text-lg text-xs absolute md:-top-7 -top-5 md:left-2 pl-2 pr-2">
+        class="flex items-center align-center md:text-lg text-xs absolute -top-5 md:left-2 pl-2 pr-2">
         Trust Level (Balance)
         <Icon class="transform scale-100 ml-2" data={questionCircle} />
       </div>
