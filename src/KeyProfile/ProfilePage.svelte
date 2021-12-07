@@ -5,7 +5,6 @@
     xprivMasterNode,
     Seed,
   } from "../stores/keyprofile.store";
-  import p2pCrypto from "libp2p-crypto";
   let { payments, bip32: HDNode } = globalThis.bitcoinjs;
 
   let addresses = {
@@ -14,8 +13,9 @@
     "84": null,
   };
 
-  let account = 0;
+  let account: Number = 0;
 
+  
   const getBalance = function (btcAddress) {
     fetch(
       `https://btc.digitalarsenal.io/blockexplorer?chain=btc&address=${btcAddress}`
@@ -30,7 +30,7 @@
    */
   const { mnemonicToSeedSync } = globalThis.bitcoinjs.bip39;
   const { message } = globalThis.bitcoinjs;
-
+  let downloadKey;
   const initAccount = async (mN) => {
     if (!mN) return;
     getBalance("1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7");
@@ -95,17 +95,6 @@
     );
     console.log("SIG", signature.toString("base64"));
 
-    //This is hard-coded to secp256k1 for BTC and ETH, even though Ed25519 keys are available
-    let convertedKey =
-      new p2pCrypto.keys.supportedKeys.secp256k1.Secp256k1PrivateKey(
-        accountFirstAddress.privateKey,
-        accountFirstAddress.publicKey
-      );
-    let pID: PeerId = await peerID.createFromPrivKey(
-      p2pCrypto.keys.marshalPrivateKey(convertedKey),
-      "secp256k1"
-    );
-
     console.log(
       accountFirstAddress.publicKey,
       pID.toString(),
@@ -113,35 +102,10 @@
       pID.marshal(),
       pID.marshalPubKey()
     );
-    /*
-    let accountKeys = mN.derivePath("m/44'/0'/0'/0/0");
-    const { address } = payments.p2pkh({
-      pubkey: accountKeys.publicKey,
-      network: globalThis.bitcoinjs.bitcoin,
-    });
-    btcAddress = address;
-    //mN.derivePath("m/44'/0'/0'").toBase58() - Account
-    let bip84Account = mN.derivePath("m/84'/0'/0'/0/0");
-    const { address: swaddress } = payments.p2wpkh({
-      pubkey: bip84Account.publicKey,
-      network: globalThis.bitcoinjs.bitcoin,
-    });
-    btcSegWitAddress = swaddress;
-    xpriv = mN.toBase58();
-    console.log(mN.privateKey.toString("hex"));
-    if ($Seed) {
-      let ethNode = ethHDNode.fromSeed($Seed);
-      let firstWallet = ethNode.derivePath(`m/44'/60'/0'/0/0`);
-      ethAddress = firstWallet.address;
-    }*/
   };
 
   const exportAccount = () => {};
   [masterNode, xprivMasterNode].forEach((c) => c.subscribe(initAccount));
-
-  const exportKey = (e) => {
-    doExport = !doExport;
-  };
 </script>
 
 <div
