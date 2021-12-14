@@ -8,23 +8,24 @@
     xpubMasterNode,
     xprivMasterNode,
     Seed,
+    purposes,
+    cointypes,
+    getBIP32Path,
   } from "../stores/keyprofile.store";
+  import type { Bip32Path, Bip32Hardened } from "../stores/keyprofile.store";
+
   let { payments, bip32: HDNode, networks } = globalThis.bitcoinjs;
 
-  let purposes = [44, 49, 84];
-  let cointypes = [0 /*BTC*/];
-  let bip32Path = {
-    purpose: { value: purposes[0], h: "'" },
-    cointype: { value: cointypes[0], h: "'" },
-    account: { value: 0, h: "'" },
-    change: { value: 0, h: "" },
-    address_index: { value: 0, h: "" },
-  };
+  $: {
+    if (bip32Path) {
+      initAccount($masterNode);
+    }
+  }
 
-  const getBIP32AccountPath = () => {
-    let b = bip32Path;
-    let x = (pathSegment) => `${pathSegment.value}${pathSegment.h}`;
-    return `m/${x(b.purpose)}/${x(b.cointype)}/${x(b.account)}`;
+  let bip32Path: Bip32Path = {
+    purpose: { value: 84, h: "'" as Bip32Hardened },
+    cointype: { value: 0, h: "'" as Bip32Hardened },
+    account: { value: 0, h: "'" as Bip32Hardened },
   };
 
   let networkObj = {
@@ -72,11 +73,29 @@
     );
     return await f.json();
   };
+  const { p2pkh, p2wpkh, p2sh, p2wsh, p2pk } = payments;
 
   const initAccount = async (mN) => {
     if (!mN) return;
-    accountNode = mN.derivePath(getBIP32AccountPath());
-    const { address: accountNodeAddress } = payments.p2pkh({
+    accountNode = mN.derivePath(getBIP32Path(bip32Path));
+
+    let tType = {
+      44: p2pkh,
+      49: ({ pubkey, network }) => {
+        return p2sh({
+          redeem: p2wsh({
+            redeem: p2pk({
+              pubkey,
+              network,
+            }),
+            network,
+          }),
+        });
+      },
+      84: p2wpkh,
+    };
+
+    const { address: accountNodeAddress } = tType[bip32Path.purpose.value]({
       pubkey: accountNode.publicKey,
       network: networkObj[activeNetwork].network,
     });
@@ -85,11 +104,12 @@
     for (let account in accountStatus) {
       rollupAccount.balance += accountStatus[account].balance;
     }
-
+    /*
     console.log(accountNode.toBase58());
     console.log(accountNode.neutered().toBase58());
     console.log(accountNode.publicKey.toString("hex"));
     console.log(accountNodeAddress);
+    */
   };
 
   const exportAccount = () => {};
@@ -144,7 +164,6 @@
         <div
           class="text-xs flex items-center"
           on:click={(e) => {
-            console.log(btcaddress[0]);
             navigator.clipboard.writeText(btcaddress[0]);
           }}>
           {btcaddress[0]}

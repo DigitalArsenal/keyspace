@@ -69,11 +69,11 @@
         props: { cssString: "height:100%" },
       }),
     },
-    "/database": {
-      name: "DATABASE",
-      icon: database,
+    "/files": {
+      name: "FILES",
+      icon: file,
       ...wrap({
-        component: Grid,
+        component: Files,
         props: { cssString: "height:100%" },
       }),
     },
@@ -92,16 +92,16 @@
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
   import MainPage from "../MainPage/MainPage.svelte";
-  import Grid from "../Grid/Grid.svelte";
   import keyprofile from "../KeyProfile/ProfilePage.svelte";
   import Login from "../Login/Login.svelte";
   import ImportKey from "../Login/ImportKey.svelte";
   import AddressBook from "../AddressBook/AddressBook.svelte";
   import Settings from "../Settings/Settings.svelte";
-
+  import Files from "../Files/Files.svelte";
   import {
     addressBook,
     database,
+    file,
     idBadge,
     gear,
     home,
