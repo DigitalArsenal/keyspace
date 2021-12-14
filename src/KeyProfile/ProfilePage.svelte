@@ -11,21 +11,25 @@
     purposes,
     cointypes,
     getBIP32Path,
+    Bip32Hardened,
+    exBip32Path,
+    addressType,
   } from "../stores/keyprofile.store";
-  import type { Bip32Path, Bip32Hardened } from "../stores/keyprofile.store";
+  import type { Bip32Path } from "../stores/keyprofile.store";
 
-  let { payments, bip32: HDNode, networks } = globalThis.bitcoinjs;
+  let { bip32: HDNode, networks } = globalThis.bitcoinjs;
 
   $: {
     if (bip32Path) {
       initAccount($masterNode);
     }
   }
+  const { Hardened } = Bip32Hardened;
 
   let bip32Path: Bip32Path = {
-    purpose: { value: 84, h: "'" as Bip32Hardened },
-    cointype: { value: 0, h: "'" as Bip32Hardened },
-    account: { value: 0, h: "'" as Bip32Hardened },
+    purpose: { value: 84, h: Hardened },
+    cointype: { value: 0, h: Hardened },
+    account: { value: 0, h: Hardened },
   };
 
   let networkObj = {
@@ -73,29 +77,12 @@
     );
     return await f.json();
   };
-  const { p2pkh, p2wpkh, p2sh, p2wsh, p2pk } = payments;
 
   const initAccount = async (mN) => {
     if (!mN) return;
-    accountNode = mN.derivePath(getBIP32Path(bip32Path));
-
-    let tType = {
-      44: p2pkh,
-      49: ({ pubkey, network }) => {
-        return p2sh({
-          redeem: p2wsh({
-            redeem: p2pk({
-              pubkey,
-              network,
-            }),
-            network,
-          }),
-        });
-      },
-      84: p2wpkh,
-    };
-
-    const { address: accountNodeAddress } = tType[bip32Path.purpose.value]({
+    let bP = bip32Path;
+    accountNode = mN.derivePath(getBIP32Path(bP));
+    const { address: accountNodeAddress } = addressType[bP.purpose.value]({
       pubkey: accountNode.publicKey,
       network: networkObj[activeNetwork].network,
     });

@@ -3,6 +3,7 @@ import pbkdf2Worker from "../workers/pbkdf2.worker.js?worker&inline";
 import argon2Worker from "../workers/argon2.worker.js?worker&inline";
 import type workerGenerator from '*?worker&inline';
 import type { Writable } from "svelte/store";
+let { payments, bip32: HDNode, networks } = globalThis.bitcoinjs;
 
 interface WorkerGeneratorHash {
   [index: string]: typeof workerGenerator
@@ -61,6 +62,24 @@ hashAlgorithm.subscribe((hA) => {
 export const purposes = [44, 49, 84];
 export const cointypes = [0 /*BTC*/];
 
+const { p2pkh, p2wpkh, p2sh, p2wsh, p2pk } = payments;
+
+export const addressType = {
+  44: p2pkh,
+  49: ({ pubkey, network }) => {
+    return p2sh({
+      redeem: p2wsh({
+        redeem: p2pk({
+          pubkey,
+          network,
+        }),
+        network,
+      }),
+    });
+  },
+  84: p2wpkh,
+};
+
 export const exBip32Path: Bip32Path = {
   purpose: { value: 44, h: "'" as Bip32Hardened },
   cointype: { value: 0, h: "'" as Bip32Hardened },
@@ -69,7 +88,7 @@ export const exBip32Path: Bip32Path = {
   address_index: { value: 0, h: "" as Bip32Hardened },
 };
 
-export const getBIP32Path = (inputPath) => {
+export const getBIP32Path = (inputPath): string => {
   let b = Object.entries(inputPath);
   let x = (pathSegment) => `${pathSegment.value}${pathSegment.h}`;
   let accountPath = b
