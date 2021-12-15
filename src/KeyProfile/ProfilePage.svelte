@@ -79,12 +79,10 @@
     accountStatus[accountNodeAddress] = new BlockCypherAPI.Address();
     getBalance(accountNodeAddress).then((newStatus) => {
       accountStatus[accountNodeAddress] = newStatus;
+      for (let account in accountStatus) {
+        rollupAccount.balance += accountStatus[account].balance;
+      }
     });
-    rollupAccount.balance = 0;
-    for (let account in accountStatus) {
-      rollupAccount.balance += accountStatus[account].balance;
-    }
-
     console.log(accountNode.toBase58());
     console.log(accountNode.neutered().toBase58());
     console.log(accountNode.publicKey.toString("hex"));

@@ -194,7 +194,7 @@ export class Address {
     // This is the difference between outputs and inputs on this address, 
     // but only for transactions that have been included into a block 
     // (i.e., for transactions whose confirmations > 0).
-    balance: number;
+    balance: number = 0;
     // Balance of unconfirmed satoshis on this address. 
     // Can be negative (if unconfirmed transactions are just spending outputs). 
     // Only unconfirmed transactions (haven't made it into a block) are included.
