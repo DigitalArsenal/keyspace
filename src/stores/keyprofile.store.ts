@@ -93,10 +93,22 @@ export const getBIP32Path = (inputPath): string => {
   let x = (pathSegment) => `${pathSegment.value}${pathSegment.h}`;
   let accountPath = b
     .map((pV) => {
-      console.log(pV);
       return x(pV[1]);
     })
     .join("/");
 
   return `m/${accountPath}`;
+};
+
+export const networkObj = {
+  "btc-testnet": {
+    network: networks.testnet,
+    coin: "btc",
+    chain: "test3",
+  },
+  btc: {
+    network: networks.bitcoin,
+    coin: "btc",
+    chain: "main",
+  },
 };

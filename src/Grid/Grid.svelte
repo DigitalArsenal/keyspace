@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { get } from "svelte/store";

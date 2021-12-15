@@ -14,8 +14,10 @@
     Bip32Hardened,
     exBip32Path,
     addressType,
+    networkObj,
   } from "../stores/keyprofile.store";
   import type { Bip32Path } from "../stores/keyprofile.store";
+  import * as BlockCypherAPI from "../class/BlockCypherAPI";
 
   let { bip32: HDNode, networks } = globalThis.bitcoinjs;
 
@@ -32,28 +34,15 @@
     account: { value: 0, h: Hardened },
   };
 
-  let networkObj = {
-    "btc-testnet": {
-      network: networks.testnet,
-      coin: "btc",
-      chain: "test3",
-    },
-    btc: {
-      network: networks.bitcoin,
-      coin: "btc",
-      chain: "main",
-    },
-  };
   let activeNetwork = "btc";
 
   let accounts: Array<string> = ["Default"];
-  interface AccountStatusArray {
-    [key: string]: BlockCypherAPI.Address;
-  }
 
   let accountNode: typeof HDNode;
 
-  let accountStatus: AccountStatusArray = {};
+  let accountStatus: {
+    [key: string]: BlockCypherAPI.Address;
+  } = {};
   let rollupAccount: BlockCypherAPI.Address = {
     balance: 0,
     hd_wallet: null,
@@ -79,6 +68,7 @@
   };
 
   const initAccount = async (mN) => {
+    console.log(mN);
     if (!mN) return;
     let bP = bip32Path;
     accountNode = mN.derivePath(getBIP32Path(bP));
@@ -86,17 +76,19 @@
       pubkey: accountNode.publicKey,
       network: networkObj[activeNetwork].network,
     });
-    accountStatus[accountNodeAddress] = await getBalance(accountNodeAddress);
+    accountStatus[accountNodeAddress] = new BlockCypherAPI.Address();
+    getBalance(accountNodeAddress).then((newStatus) => {
+      accountStatus[accountNodeAddress] = newStatus;
+    });
     rollupAccount.balance = 0;
     for (let account in accountStatus) {
       rollupAccount.balance += accountStatus[account].balance;
     }
-    /*
+
     console.log(accountNode.toBase58());
     console.log(accountNode.neutered().toBase58());
     console.log(accountNode.publicKey.toString("hex"));
     console.log(accountNodeAddress);
-    */
   };
 
   const exportAccount = () => {};

@@ -88,7 +88,7 @@
   };
 </script>
 
-<script type="ts">
+<script lang="ts">
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
   import MainPage from "../MainPage/MainPage.svelte";
